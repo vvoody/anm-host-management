@@ -1,0 +1,148 @@
+0) how to use snmp* commands
+
+e.g.
+-..*hrStorage->             # getnext, bulkget, bulkwalk
+   |..hrStorageTypes
+   |..hrMemorySize          # get, getnext, bulkget, bulkwalk
+   `..hrStorageTable        # getnext, *table*, bulkget, bulkwalk
+     `..hrStorageEntry      # getnext, bulkget, snmpbulkwalk
+        |..hrStorageIndex   # getnext, bulkget, bulkwalk
+        |..hrStorageType
+        |..hrStorageDescr   # get hrStorageDescr.3
+        |........
+
+
+1)host system
+
+hrSystem              1.3.6.1.2.1.25.1 [baseoid]
+
+hrSystemUptime        1.3.6.1.2.1.25.1.1.0
+hrSystemDate          1.3.6.1.2.1.25.1.2.0
+hrSystemNumUsers      1.3.6.1.2.1.25.1.5.0
+#hrSystemProcesses     1.3.6.1.2.1.25.1.6.0  # No Such Instance
+hrSystemMaxProcesses  1.3.6.1.2.1.25.1.7.0
+
+hrStorage
+hrMemorySize          1.3.6.1.2.1.25.2.2.0
+#########################################################################################
+
+2)storage
+
+hrStorage             1.3.6.1.2.1.25.2 [base oid]
+
+hrStorageTypes        1.3.6.1.2.1.25.2.1               # hidden, can get
+
+hrMemorySize          1.3.6.1.2.1.25.2.2.0
+
+hrStorageTable        1.3.6.1.2.1.25.2.3
+hrStorageIndex        1.3.6.1.2.1.25.2.3.1.1
+hrStorageType         1.3.6.1.2.1.25.2.3.1.2
+hrStorageDescr        1.3.6.1.2.1.25.2.3.1.3
+hrStorageAllocationUnits     1.3.6.1.2.1.25.2.3.1.4
+hrStorageSize         1.3.6.1.2.1.25.2.3.1.5
+hrStorageUsed         1.3.6.1.2.1.25.2.3.1.6
+hrStorageAllocationFailures  1.3.6.1.2.1.25.2.3.1.7    # can get, but is hrDeviceIndex
+#############################################################################
+
+3) device
+
+hrDevice     1.3.6.1.2.1.25.3 [base oid]
+
+hrDeviceTypes         1.3.6.1.2.1.25.3.1
+
+hrDeviceTable         1.3.6.1.2.1.25.3.2
+hrDeviceEntry         1.3.6.1.2.1.25.3.2.1
+hrDeviceIndex         1.3.6.1.2.1.25.3.2.1.1
+hrDeviceType          1.3.6.1.2.1.25.3.2.1.2
+hrDeviceDescr         1.3.6.1.2.1.25.3.2.1.3
+#hrDeviceID            1.3.6.1.2.1.25.3.2.1.4
+hrDeviceStatus        1.3.6.1.2.1.25.3.2.1.5    # not every entry has this
+hrDeviceErrors        1.3.6.1.2.1.25.3.2.1.6    # same as above
+
+#hrProcessorTable      1.3.6.1.2.1.25.3.3
+#hrProcessorEntry      1.3.6.1.2.1.25.3.3.1
+#hrProcessorFrwID      1.3.6.1.2.1.25.3.3.1.1
+#hrProcessorLoad       1.3.6.1.2.1.25.3.3.1.2
+
+#hrNetworkTable        1.3.6.1.2.1.25.3.4
+#hrNetworkEntry        1.3.6.1.2.1.25.3.4.1
+#hrNetworkIfIndex      1.3.6.1.2.1.25.3.4.1.1
+
+#hrPrinterTable        1.3.6.1.2.1.25.3.5
+#hrPrinterEntry        1.3.6.1.2.1.25.3.5.1
+#hrPrinterStatus       1.3.6.1.2.1.25.3.5.1.1
+#hrPrinterDetectedErrorState     1.3.6.1.2.1.25.3.5.1.2
+
+#hrDiskStorageTable    1.3.6.1.2.1.25.3.6
+#hrDiskEntry           1.3.6.1.2.1.25.3.6.1
+#hrDiskStorageAccess   1.3.6.1.2.1.25.3.6.1.1
+#hrDiskStorageMedia    1.3.6.1.2.1.25.3.6.1.2
+#hrDiskStrorageRemovable       1.3.6.1.2.1.25.3.6.1.3
+#hrDiskStorageCapacity         1.3.6.1.2.1.25.3.6.1.4
+
+#hrPartitionTable              1.3.6.1.2.1.25.3.7
+#hrPartitionEntry              1.3.6.1.2.1.25.3.7.1
+#hrPartitionIndex              1.3.6.1.2.1.25.3.7.1.1    # duplicate ids
+#hrPartitionLabel              1.3.6.1.2.1.25.3.7.1.2
+#hrPartitionId                 1.3.6.1.2.1.25.3.7.1.3
+#hrPartitionSize               1.3.6.1.2.1.25.3.7.1.4
+#hrPartiotionSindex            1.3.6.1.2.1.25.3.7.1.5
+
+#hrFSTable                     1.3.6.1.2.1.25.3.8
+#hrFSEntry                     1.3.6.1.2.1.25.3.8.1
+#hrFSIndex                     1.3.6.1.2.1.25.3.8.1.1
+#hrFSMountPoint                1.3.6.1.2.1.25.3.8.1.2
+#hrFSRemoteMountPoint          1.3.6.1.2.1.25.3.8.1.3
+#hrFSType                      1.3.6.1.2.1.25.3.8.1.4
+#hrFSAccess                    1.3.6.1.2.1.25.3.8.1.5
+#hrFSBootable                  1.3.6.1.2.1.25.3.8.1.6
+#hrFSStorageIndex              1.3.6.1.2.1.25.3.8.1.7
+#hrFSLastFullBackupDate        1.3.6.1.2.1.25.3.8.1.8
+#hrFSLastPartialBackupDate     1.3.6.1.2.1.25.3.8.1.9
+
+#hrFSTypes                     1.3.6.1.2.1.25.3.9    # hidden
+#######################################################################################
+
+4) software running
+
+hrSWRun                       1.3.6.1.2.1.25.4 [base oid]
+
+hrSWOSIndex                   1.3.6.1.2.1.25.4.1.0
+
+hrSWRunTable                  1.3.6.1.2.1.25.4.2 
+hrSWRunEntry                  1.3.6.1.2.1.25.4.2.1
+hrSWRunIndex                  1.3.6.1.2.1.25.4.2.1.1    # pid
+hrSWRunName                   1.3.6.1.2.1.25.4.2.1.2
+#hrSWRunID                     1.3.6.1.2.1.25.4.2.1.3
+#hrSWRunPath                   1.3.6.1.2.1.25.4.2.1.4
+#hrSWRunParameters             1.3.6.1.2.1.25.4.2.1.5
+hrSWRunType                   1.3.6.1.2.1.25.4.2.1.6
+hrSWRunStatus                 1.3.6.1.2.1.25.4.2.1.7
+
+###################################################################################
+5) SWRUn performance
+
+hrSWRunPerf                   1.3.6.1.2.1.25.5
+hrSWRunPerfTable              1.3.6.1.2.1.25.5.1
+hrSWRunPerfEntry              1.3.6.1.2.1.25.5.1.1
+hrSWRunPerfCPU                1.3.6.1.2.1.25.5.1.1.1
+hrSWRunPerfMem                1.3.6.1.2.1.25.5.1.1.2
+
+##########################################################################################
+
+6) software installed 
+
+hrSWInstalled                 1.3.6.1.2.1.25.6
+
+#hrSWInstalledLastChange       1.3.6.1.2.1.25.6.1.0
+#hrSWInstalledLastUpdateTime   1.3.6.1.2.1.25.6.2.0
+hrSWInstalledTable            1.3.6.1.2.1.25.6.3    # no entries
+hrSWInstalledEntry            1.3.6.1.2.1.25.6.3.1
+hrSWInstalledIndex            1.3.6.1.2.1.25.6.3.1.1
+hrSWInstalledName             1.3.6.1.2.1.25.6.3.1.2
+#hrSWInstalledID               1.3.6.1.2.1.25.6.3.1.3
+hrSWInstalledType             1.3.6.1.2.1.25.6.3.1.4
+hrSWInstalledDate             1.3.6.1.2.1.25.6.3.1.5
+
+#############################################################################################
+ ********************* THE END *****************************
