@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `hosts_log` (
   `num_users` int(11) NOT NULL COMMENT 'hrSystemNumUsers',
   `max_processes` int(11) NOT NULL COMMENT 'hrSystemMaxProcesses',
   `memsize` int(11) NOT NULL COMMENT 'hrMemorySize',
-  `num_loaded_processes` int(11) NOT NULL COMMENT 'len(hrSWRunIndex)',
+  `num_loaded_processes` int(11) NOT NULL COMMENT 'hrSystemProcesses',
   `status` int(11) NOT NULL COMMENT 'up(1), down(2)',
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
