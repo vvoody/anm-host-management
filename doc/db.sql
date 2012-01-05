@@ -1,11 +1,21 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+--
+-- Database: `vvoody_db`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `devices`
+--
 
 CREATE TABLE IF NOT EXISTS `devices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -18,6 +28,12 @@ CREATE TABLE IF NOT EXISTS `devices` (
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `devices_log`
+--
+
 CREATE TABLE IF NOT EXISTS `devices_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `device_id` int(11) NOT NULL COMMENT 'devices.id',
@@ -28,13 +44,26 @@ CREATE TABLE IF NOT EXISTS `devices_log` (
   KEY `stamp` (`stamp`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hosts`
+--
+
 CREATE TABLE IF NOT EXISTS `hosts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip_name` varchar(50) NOT NULL COMMENT 'ip or host name',
   `status` char(12) NOT NULL DEFAULT 'enabled',
+  `community` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ip_name` (`ip_name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hosts_log`
+--
 
 CREATE TABLE IF NOT EXISTS `hosts_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -51,6 +80,12 @@ CREATE TABLE IF NOT EXISTS `hosts_log` (
   KEY `stamp` (`stamp`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `software_installed`
+--
+
 CREATE TABLE IF NOT EXISTS `software_installed` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'hrSWInstalledName',
@@ -61,6 +96,12 @@ CREATE TABLE IF NOT EXISTS `software_installed` (
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `software_running`
+--
+
 CREATE TABLE IF NOT EXISTS `software_running` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'hrSWRunName',
@@ -70,6 +111,12 @@ CREATE TABLE IF NOT EXISTS `software_running` (
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `software_running_log`
+--
 
 CREATE TABLE IF NOT EXISTS `software_running_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -82,6 +129,12 @@ CREATE TABLE IF NOT EXISTS `software_running_log` (
   KEY `stamp` (`stamp`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `storage`
+--
+
 CREATE TABLE IF NOT EXISTS `storage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descr` varchar(50) NOT NULL COMMENT 'hrStorageDescr',
@@ -93,6 +146,12 @@ CREATE TABLE IF NOT EXISTS `storage` (
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `storage_log`
+--
 
 CREATE TABLE IF NOT EXISTS `storage_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
