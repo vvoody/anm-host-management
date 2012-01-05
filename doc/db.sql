@@ -1,30 +1,11 @@
--- phpMyAdmin SQL Dump
--- version 3.4.9
--- http://www.phpmyadmin.net
---
--- 主机: localhost
--- 生成日期: 2012 年 01 月 04 日 16:45
--- 服务器版本: 5.1.56
--- PHP 版本: 5.3.8
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
---
--- 数据库: `vvoody_db`
---
-
--- --------------------------------------------------------
-
---
--- 表的结构 `devices`
---
 
 CREATE TABLE IF NOT EXISTS `devices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -37,12 +18,6 @@ CREATE TABLE IF NOT EXISTS `devices` (
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `devices_log`
---
-
 CREATE TABLE IF NOT EXISTS `devices_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `device_id` int(11) NOT NULL COMMENT 'devices.id',
@@ -53,24 +28,13 @@ CREATE TABLE IF NOT EXISTS `devices_log` (
   KEY `stamp` (`stamp`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `hosts`
---
-
 CREATE TABLE IF NOT EXISTS `hosts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip_name` varchar(50) NOT NULL COMMENT 'ip or host name',
   `status` char(12) NOT NULL DEFAULT 'enabled',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `hosts_log`
---
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ip_name` (`ip_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 CREATE TABLE IF NOT EXISTS `hosts_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -87,12 +51,6 @@ CREATE TABLE IF NOT EXISTS `hosts_log` (
   KEY `stamp` (`stamp`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `software_installed`
---
-
 CREATE TABLE IF NOT EXISTS `software_installed` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'hrSWInstalledName',
@@ -103,12 +61,6 @@ CREATE TABLE IF NOT EXISTS `software_installed` (
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `software_running`
---
-
 CREATE TABLE IF NOT EXISTS `software_running` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'hrSWRunName',
@@ -118,12 +70,6 @@ CREATE TABLE IF NOT EXISTS `software_running` (
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `software_running_log`
---
 
 CREATE TABLE IF NOT EXISTS `software_running_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -136,12 +82,6 @@ CREATE TABLE IF NOT EXISTS `software_running_log` (
   KEY `stamp` (`stamp`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `storage`
---
-
 CREATE TABLE IF NOT EXISTS `storage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descr` varchar(50) NOT NULL COMMENT 'hrStorageDescr',
@@ -153,12 +93,6 @@ CREATE TABLE IF NOT EXISTS `storage` (
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `storage_log`
---
 
 CREATE TABLE IF NOT EXISTS `storage_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
