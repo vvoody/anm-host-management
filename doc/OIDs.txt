@@ -19,7 +19,7 @@ hrSystem              1.3.6.1.2.1.25.1 [baseoid]
 hrSystemUptime        1.3.6.1.2.1.25.1.1.0
 hrSystemDate          1.3.6.1.2.1.25.1.2.0
 hrSystemNumUsers      1.3.6.1.2.1.25.1.5.0
-#hrSystemProcesses     1.3.6.1.2.1.25.1.6.0  # No Such Instance
+hrSystemProcesses     1.3.6.1.2.1.25.1.6.0  # No Such Instance
 hrSystemMaxProcesses  1.3.6.1.2.1.25.1.7.0
 
 hrStorage
