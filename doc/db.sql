@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `device_idx` int(11) NOT NULL COMMENT 'hrDeviceIndex',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -37,12 +37,12 @@ CREATE TABLE IF NOT EXISTS `devices` (
 CREATE TABLE IF NOT EXISTS `devices_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `device_id` int(11) NOT NULL COMMENT 'devices.id',
-  `num_errors` int(11) NOT NULL COMMENT 'hrDeviceErrors',
+  `num_errors` int(11) DEFAULT NULL COMMENT 'hrDeviceErrors',
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `device_id` (`device_id`),
   KEY `stamp` (`stamp`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `hosts` (
   `community` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ip_name` (`ip_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -68,17 +68,17 @@ CREATE TABLE IF NOT EXISTS `hosts` (
 CREATE TABLE IF NOT EXISTS `hosts_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `host_id` int(11) NOT NULL COMMENT 'hosts.id',
-  `uptime` int(11) NOT NULL COMMENT 'hrSystemUptime',
-  `num_users` int(11) NOT NULL COMMENT 'hrSystemNumUsers',
-  `max_processes` int(11) NOT NULL COMMENT 'hrSystemMaxProcesses',
-  `memsize` int(11) NOT NULL COMMENT 'hrMemorySize',
-  `num_loaded_processes` int(11) NOT NULL COMMENT 'hrSystemProcesses',
+  `uptime` int(11) DEFAULT NULL COMMENT 'hrSystemUptime',
+  `num_users` int(11) DEFAULT NULL COMMENT 'hrSystemNumUsers',
+  `max_processes` int(11) DEFAULT NULL COMMENT 'hrSystemMaxProcesses',
+  `memsize` int(11) DEFAULT NULL COMMENT 'hrMemorySize',
+  `num_loaded_processes` int(11) DEFAULT NULL COMMENT 'hrSystemProcesses',
   `status` int(11) NOT NULL COMMENT 'up(1), down(2)',
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`),
   KEY `stamp` (`stamp`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `software_installed` (
   `last_update` datetime NOT NULL COMMENT 'hrSWInstalledDate',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `software_running` (
   `host_id` int(11) NOT NULL COMMENT 'hosts.id',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -121,13 +121,13 @@ CREATE TABLE IF NOT EXISTS `software_running` (
 CREATE TABLE IF NOT EXISTS `software_running_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `software_running_id` int(11) NOT NULL COMMENT 'software_running.id',
-  `cpu_used` int(11) NOT NULL COMMENT 'hrSWRunPerfCPU',
-  `mem_allocated` int(11) NOT NULL COMMENT 'hrSWRunPerfMem',
+  `cpu_used` int(11) DEFAULT NULL COMMENT 'hrSWRunPerfCPU',
+  `mem_allocated` int(11) DEFAULT NULL COMMENT 'hrSWRunPerfMem',
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `software_running_id` (`software_running_id`),
   KEY `stamp` (`stamp`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `storage` (
   `storage_idx` int(11) NOT NULL COMMENT 'hrStorageIndex',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -156,13 +156,13 @@ CREATE TABLE IF NOT EXISTS `storage` (
 CREATE TABLE IF NOT EXISTS `storage_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `storage_id` int(11) NOT NULL COMMENT 'storage.id',
-  `used_capacity` int(11) NOT NULL COMMENT 'hrStorageUsed',
-  `allocation_failures` int(11) NOT NULL COMMENT 'hrStorageAllocationFailures',
+  `used_capacity` int(11) DEFAULT NULL COMMENT 'hrStorageUsed',
+  `allocation_failures` int(11) DEFAULT NULL COMMENT 'hrStorageAllocationFailures',
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `storage_id` (`storage_id`),
   KEY `stamp` (`stamp`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
