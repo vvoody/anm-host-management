@@ -63,6 +63,18 @@ sub connect_snmp {
 }
 
 
+sub insert_hash {
+    my ($dbh, $table, $field_values) = @_;
+    # sort to keep field order, and thus sql, stable for prepare_cached
+    my @fields = sort keys %$field_values;
+    my @values = @{$field_values}{@fields};
+    my $sql = sprintf "insert into %s (%s) values (%s)",
+        $table, join(",", @fields), join(",", ("?")x@fields);
+    my $sth = $dbh->prepare_cached($sql);
+    return $sth->execute(@values);
+}
+
+
 # similar to python's if __name__ == "__main__"
 unless (caller) {
     print "Testing database connection... ";
