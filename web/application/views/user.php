@@ -35,7 +35,7 @@ foreach ($users as $row) {
     echo "<td>$account_type</td>";
     echo "<td>$email</td>";
     echo "<td>$password</td>";
-    echo "<td>DELETE</td>";
+    echo "<td>" . anchor("user/del/$id", 'DELETE') . "</td>";
     echo "</tr>";
 }
 

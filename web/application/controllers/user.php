@@ -12,13 +12,13 @@ class User extends CI_Controller {
         $this->load->view('welcome_message');
     }
 
-    public function show($host='all') {
-        if ($host == 'all') {
+    public function show($user='all') {
+        if ($user == 'all') {
             $this->load->database();
             $query = $this->db->get('users');
             $data['title'] = "Users";
-            $data['hosts'] = $query->result();
-            $this->load->view('host', $data);
+            $data['users'] = $query->result();
+            $this->load->view('user', $data);
         }
     }
 
@@ -44,6 +44,14 @@ class User extends CI_Controller {
             $data['title'] = "Add a new host";
             $this->load->view('user_add', $data);
         }
+    }
+
+    public function del($user_id) {
+        if (isset($user_id)) {
+            $this->load->database();
+            $this->db->delete('users', array('id' => $user_id));
+        }
+        redirect("/user/show/all", "refresh");
     }
 
 }
