@@ -7,11 +7,19 @@ class Master extends CI_Controller {
     }
 
     public function index() {
-        $this->load->view('welcome_message');
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $data['title'] = "Home";
+//        $this->load->view('login', $data);
+        $this->load->view('home', $data);
+    }
+
+    public function logincheck() {
+        echo "logincheck";
     }
 
     public function logout() {
-        ;
+        echo "logout";
     }
 }
 

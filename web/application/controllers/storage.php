@@ -10,9 +10,13 @@ class Storage extends CI_Controller {
         $this->load->view('welcome_message');
     }
 
-    public function logout() {
-        ;
+    public function showall($host_id) {
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $data['title'] = "Storage";
+        $this->load->view('storage');;
     }
+
 }
 
 /* End of file storage.php */

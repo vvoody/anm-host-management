@@ -10,6 +10,13 @@ class SoftwareInstalled extends CI_Controller {
         $this->load->view('welcome_message');
     }
 
+    public function showall($host_id) {
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $data['title'] = "Software Installed";
+        $this->load->view('softwareinstalled');;
+    }
+
 }
 
 /* End of file softwareinstalled.php */
