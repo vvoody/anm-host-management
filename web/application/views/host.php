@@ -11,18 +11,28 @@ echo "</div>";
 
 <table border="0" width="100%" class="norm" cellpadding="0" cellspacing="0">
 <tr>
-<th>Host ID</th>
-<th>Uptime</th>
-<th>Users</th>
-<th>Max Processes</th>
-<th>Memory Size</th>
-<th>Loaded Processes</th>
-<th>Host Monitoring</th>
+<th>ID</th>
+<th>IP</th>
+<th>community</th>
+<th>Monitoring</th>
 <th>Remove Host</th>
 </tr>
 
 
 <?php
+
+foreach ($hosts as $row) {
+    $id = $row->id;
+    $ip = $row->ip_name;
+    $community = $row->community;
+    echo "<tr>";
+    echo "<td>$id</td>";
+    echo "<td>$ip</td>";
+    echo "<td>$community</td>";
+    echo "<td>" . anchor("host/show/$id", "Monitoring") . "</td>";
+    echo "<td>" . anchor("host/del/$id", 'DELETE') . "</td>";
+    echo "</tr>";
+}
 
 ?>
 

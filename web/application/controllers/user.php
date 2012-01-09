@@ -4,6 +4,8 @@ class User extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->helper('form');
+        $this->load->helper('url');
     }
 
     public function index() {
@@ -11,24 +13,31 @@ class User extends CI_Controller {
     }
 
     public function show($host='all') {
-        $this->load->helper('form');
-        $this->load->helper('url');
         if ($host == 'all') {
-            $data['title'] = "Hosts";
-            $this->load->view('user', $data);
+            $this->load->database();
+            $query = $this->db->get('users');
+            $data['title'] = "Users";
+            $data['hosts'] = $query->result();
+            $this->load->view('host', $data);
         }
     }
 
     public function add() {
-        $this->load->helper('form');
-        $this->load->helper('url');
         $name = $this->input->post('name');
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         $email = $this->input->post('email');
-        $usertype = $this->input->post('usertype');
+        $usertype = $this->input->post('user');
         if ($name) {
-            echo $name;
+            $this->load->database();
+            $data = array(
+                'name' => $name,
+                'username' => $username,
+                'password' => crypt($password),
+                'email' => $email,
+                'accountype' => $usertype,
+                );
+            $this->db->insert('users', $data);
             redirect("/user/show/all", 'refresh');
         }
         else {

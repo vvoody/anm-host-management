@@ -41,6 +41,8 @@
 $route['default_controller'] = "master";
 $route['404_override'] = '';
 
+$route['login'] = 'master/login';
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

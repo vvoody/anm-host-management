@@ -4,14 +4,18 @@ class Master extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->helper('form');
+        $this->load->helper('url');
     }
 
     public function index() {
-        $this->load->helper('form');
-        $this->load->helper('url');
         $data['title'] = "Home";
-//        $this->load->view('login', $data);
         $this->load->view('home', $data);
+    }
+
+    public function login() {
+        $data['title'] = "Login";
+        $this->load->view('login', $data);
     }
 
     public function logincheck() {
