@@ -6,6 +6,7 @@ class User extends CI_Controller {
         parent::__construct();
         $this->load->helper('form');
         $this->load->helper('url');
+        $this->load->model('User_model', '', TRUE);
     }
 
     public function index() {
@@ -14,10 +15,8 @@ class User extends CI_Controller {
 
     public function show($user='all') {
         if ($user == 'all') {
-            $this->load->database();
-            $query = $this->db->get('users');
             $data['title'] = "Users";
-            $data['users'] = $query->result();
+            $data['users'] = $this->User_model->get_users();
             $this->load->view('user', $data);
         }
     }
@@ -29,7 +28,6 @@ class User extends CI_Controller {
         $email = $this->input->post('email');
         $usertype = $this->input->post('user');
         if ($name) {
-            $this->load->database();
             $data = array(
                 'name' => $name,
                 'username' => $username,
@@ -37,7 +35,7 @@ class User extends CI_Controller {
                 'email' => $email,
                 'accountype' => $usertype,
                 );
-            $this->db->insert('users', $data);
+            $this->User_model->add_user($data);
             redirect("/user/show/all", 'refresh');
         }
         else {
@@ -48,8 +46,7 @@ class User extends CI_Controller {
 
     public function del($user_id) {
         if (isset($user_id)) {
-            $this->load->database();
-            $this->db->delete('users', array('id' => $user_id));
+            $this->User_model->del_user($user_id);
         }
         redirect("/user/show/all", "refresh");
     }

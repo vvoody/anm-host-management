@@ -6,6 +6,7 @@ class Host extends CI_Controller {
         parent::__construct();
         $this->load->helper('form');
         $this->load->helper('url');
+        $this->load->model('Host_model', '', TRUE);
     }
 
     public function index() {
@@ -14,10 +15,8 @@ class Host extends CI_Controller {
 
     public function show($host='all') {
         if ($host == 'all') {
-            $this->load->database();
-            $query = $this->db->get('hosts');
             $data['title'] = "Hosts";
-            $data['hosts'] = $query->result();
+            $data['hosts'] = $this->Host_model->get_hosts();
             $this->load->view('host', $data);
         }
         else {
@@ -30,12 +29,11 @@ class Host extends CI_Controller {
         $ip = $this->input->post('ip');
         $community = $this->input->post('community');
         if ($ip && $community) {
-            $this->load->database();
             $data = array(
                 'ip_name' => $ip,
                 'community' => $community,
                 );
-            $this->db->insert('hosts', $data);
+            $this->Host_model->add_host($data);
             redirect("/host/show/all", 'refresh');
         }
         else {
@@ -46,8 +44,7 @@ class Host extends CI_Controller {
 
     public function del($host_id) {
         if (isset($host_id)) {
-            $this->load->database();
-            $this->db->delete('hosts', array('id' => $host_id));
+            $this->Host_model->del_host($host_id);
         }
         redirect("/host/show/all", "refresh");
     }
