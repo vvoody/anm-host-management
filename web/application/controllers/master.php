@@ -9,22 +9,60 @@ class Master extends CI_Controller {
     }
 
     public function index() {
-        $data['title'] = "Home";
-        $this->load->view('home', $data);
+        if ($this->session->userdata('logged_in') == TRUE) {
+            $data['title'] = "Home";
+            $this->load->view('home', $data);
+        }
+        else {
+            $this->my_redirect('login');
+        }
     }
 
     public function login() {
-        $data['title'] = "Login";
-        $this->load->view('login', $data);
+        if ($this->session->userdata('logged_in') == TRUE) {
+            $this->my_redirect();
+        }
+        else {
+            $data['title'] = "Login";
+            $this->load->view('login', $data);
+        }
     }
 
     public function logincheck() {
-        echo "logincheck";
+        if ($this->session->userdata('logged_in') == TRUE) {
+            return;
+        }
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+        $account_type = $this->input->post('account_type');
+        if ($username && $password) {
+            $this->load->model('User_model', '', TRUE);
+            $user = $this->User_model->get_user_by_username($username);
+            if ($user) {
+                if (crypt($password, $user->password) == $user->password) {
+                    $this->session->set_userdata('logged_in', TRUE);
+                    if ($user->account_type == "Admin")
+                        $this->session->set_userdata('isAdmin', TRUE);
+                    $this->my_redirect();
+                    return;
+                }
+            }
+        }
+        $data['title'] = "Login";
+        $data['warning'] = "Wrong username and password!";
+        $this->load->view('login', $data);
     }
 
     public function logout() {
-        echo "logout";
+        $this->session->sess_destroy();
+        $this->my_redirect();
     }
+
+    // default redirect to index
+    private function my_redirect($page='/') {
+        redirect($page);
+    }
+
 }
 
 /* End of file master.php */

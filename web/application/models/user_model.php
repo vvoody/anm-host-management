@@ -12,6 +12,15 @@ class User_model extends CI_Model {
         return $query->result();
     }
 
+    public function get_user_by_username($username) {
+        $this->db->where('username', $username);
+        $query = $this->db->get($this->tname);
+        if ($query->num_rows() > 0)
+            return $query->row();
+        else
+            return NULL;
+    }
+
     public function add_user($data) {
         $this->db->insert($this->tname, $data);
     }

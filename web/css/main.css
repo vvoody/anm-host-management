@@ -4,40 +4,40 @@
 /* For All */
 
 *				{ margin: 0; padding: 0; }
-a				{ text-decoration: none; color: #527619; }	
+a				{ text-decoration: none; color: #527619; }
 img				{ border: none; }
-li				{ list-style: none; }	
+li				{ list-style: none; }
 body			{ font: normal 11px Verdana; color: #353535; background-color: #F6F6E8; }
-		
+
 /* Main Divs */
-		
+
 .container		{ width: 980px; margin: 0 auto; }
 .header			{ padding: 25px; border-bottom: 1px dashed #ccc; }
-.header h1		{ font: normal 26px 'Ubuntu Condensed'; color: #444; letter-spacing: 2px; text-transform: uppercase; 
+.header h1		{ font: normal 26px 'Ubuntu Condensed'; color: #444; letter-spacing: 2px; text-transform: uppercase;
 				background: url(../images/logo.png) no-repeat left center; padding-left: 45px; }
-									
+
 /* Login */
-				
+
 .login						{ margin: 0 auto; padding: 100px 0; }
 .login input, .login select	{ float: left; font: normal 11px Arial; color: #555; padding: 2px; }
 .login td					{ padding-top: 5px; }
 .login td:first-child		{ font-weight: bold; text-align: right; padding-right: 5px; }
 .login select				{ margin-right: 5px; }
 .login input[type="submit"]	{ padding: 3px 17px; color: #333; font-weight: bold; }
-																
+
 /* Navigation */
-				
+
 .nav			{ padding: 15px 25px; border-bottom: 1px dashed #ccc; }
 .nav a			{ font: bold 12px Verdana; color: #999; }
 .nav a:hover	{ color: #333; }
 .nav a.active	{ color: #333; }
 .nav span		{ padding: 0 20px; }
-									
+
 /* Content */
-			
-.content		{ background: url(../images/bg.jpg) repeat; padding: 30px 25px; }	
+
+.content		{ background: url(../images/bg.jpg) repeat; padding: 30px 25px; }
 .content h1		{ float:right; font: bold 20px 'Ubuntu Condensed'; color: #777; }
-.content p		{ line-height: 20px; }	
+.content p		{ line-height: 20px; }
 .content ul li a		{ font: bold 13px Verdana; color: #5A4469; margin: 5px 0; }
 .content ul li a:hover	{ color: #252525; }
 .content ul li.dev a	{ background: url(../images/devices.png) no-repeat left center; padding: 5px 5px 5px 20px; display: block; width: 140px; }
@@ -48,18 +48,20 @@ body			{ font: normal 11px Verdana; color: #353535; background-color: #F6F6E8; }
 .content .con_link span		{ padding: 0 10px; }
 .content .con_link a		{ font: bold 11px Verdana; color: #888; }
 .content .con_link a:hover	{ color: #5A4469; }
-.content .con_link a.add	{ background: url(../images/add.png) no-repeat left center; padding: 5px 5px 5px 30px; display: block; 
+.content .con_link a.add	{ background: url(../images/add.png) no-repeat left center; padding: 5px 5px 5px 30px; display: block;
 							width: 140px; font: bold 14px Verdana; color: #009933; }
-				
+
 /* Table */
-				
+
 .norm			{ border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; font: normal 11px Verdana; }
-.norm tr th		{ padding: 8px 12px; border-top: 1px solid #fff; border-left: 1px solid #e5e5e5; background-color: #87AB4F; 
-				font-weight: bold; text-align: left; color: #fff; }	
-.norm tr td		{ padding: 8px 12px; border-top: 1px solid #fff; border-left: 1px solid #fff; background-color: #E5E5D1; }			
+.norm tr th		{ padding: 8px 12px; border-top: 1px solid #fff; border-left: 1px solid #e5e5e5; background-color: #87AB4F;
+				font-weight: bold; text-align: left; color: #fff; }
+.norm tr td		{ padding: 8px 12px; border-top: 1px solid #fff; border-left: 1px solid #fff; background-color: #E5E5D1; }
 .norm td input	{ font: bold 11px Verdana; color: #333; padding: 2px 5px; margin: 0; }
 
+.warning {color: red;}
+
 /* Footer */
-				
-.footer			{ padding: 20px 25px; border-top: 1px dashed #ccc; }			
+
+.footer			{ padding: 20px 25px; border-top: 1px dashed #ccc; }
 .footer p		{ font: normal 10px Verdana; color: #666; }

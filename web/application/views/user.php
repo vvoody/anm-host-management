@@ -26,7 +26,7 @@ echo "</div>";
 foreach ($users as $row) {
     $id = $row->id;
     $username = $row->username;
-    $account_type = $row->accountype;
+    $account_type = $row->account_type;
     $email = $row->email;
     $password = $row->password;
     echo "<tr>";

@@ -22,12 +22,16 @@ require_once("header.php");
 
 <tr>
 <td>Account:</td>
-<td><select name="userType">
+<td><select name="account_type">
 <option>User</option>
 <option>Admin</option>
 </select>
 <input type="submit" value="Login"/>
 </td>
+</tr>
+
+<tr>
+<td class="warning" colspan="2"><?php echo isset($warning)?$warning:'';?></td>
 </tr>
 
 </table>

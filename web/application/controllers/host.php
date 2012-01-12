@@ -4,9 +4,16 @@ class Host extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper('form');
-        $this->load->helper('url');
-        $this->load->model('Host_model', '', TRUE);
+        if ($this->session->userdata('logged_in') == TRUE &&
+            $this->session->userdata('isAdmin') == TRUE) {
+            $this->load->helper('form');
+            $this->load->helper('url');
+            $this->load->model('Host_model', '', TRUE);
+        }
+        else {
+            echo "Admin ONLY can access to Hosts page!";
+            throw new Exception();
+        }
     }
 
     public function index() {
