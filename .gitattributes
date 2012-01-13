@@ -1,0 +1,2 @@
+web/application/config/config.php      filter=devsetup
+web/application/config/database.php    filter=devsetup
