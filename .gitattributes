@@ -1,2 +1,3 @@
-web/application/config/config.php      filter=devsetup
-web/application/config/database.php    filter=devsetup
+web/application/config/config.php      filter=devsetupweb
+web/application/config/database.php    filter=devsetupweb
+perl/setting.pl                        filter=devsetupperl
