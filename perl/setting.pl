@@ -1,5 +1,5 @@
 sub assert {
-    die "Please '$_[0]'\n";
+    die "Please set '$_[0]'\n";
 }
 
 $DATABASE = "" or assert "DATABASE";
