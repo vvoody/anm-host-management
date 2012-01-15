@@ -5,6 +5,14 @@ use DBD::mysql;
 use Net::SNMP;
 
 
+sub MYLOG {
+    my ($script, $func, $params, $err_msg) = @_;
+    open (STDERR, "| tee -ai $LOGFILE");    # hmmm, not portable...
+    print STDERR scalar localtime . " - $script, $func, $params: $err_msg.\n";
+    close (STDERR);
+}
+
+
 sub OK {
     print "OK!\n";
 }
@@ -60,6 +68,27 @@ sub connect_snmp {
         -community   => $community,
         );
     return ($session, $error);
+}
+
+
+# return (list_of_hosts_meta, err_msg)
+sub get_hosts {
+    my $dbh = $_[0];
+    my ($l_ref, $err) = get_rows($dbh, "SELECT id, ip_name, community from hosts");
+    return ($l_ref, $err);
+}
+
+
+# return (list_of_{devices,storage,...}_idx, err_msg)
+sub get_idxs {
+    my ($snmp_sess, $idx_oid) = @_;
+    my $res = $snmp_sess->get_entries(-columns => [$idx_oid]);
+    my $hash_ref = $snmp_sess->var_bind_list();
+    if ($hash_ref) {
+        my @idxs = values %$hash_ref;
+        return (\@idxs, undef);
+    }
+    return (undef, $snmp_sess->error());
 }
 
 

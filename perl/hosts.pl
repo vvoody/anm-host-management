@@ -12,14 +12,6 @@ $TNAME = "hosts_log";
 @TCOLS = ("host_id", "uptime", "num_users", "max_processes", "memsize", "num_loaded_processes", "status");
 
 
-# return (list_of_hosts_meta, err_msg)
-sub get_hosts {
-    my $dbh = $_[0];
-    my ($l_ref, $err) = get_rows($dbh, "SELECT id, ip_name, community from hosts");
-    return ($l_ref, $err);
-}
-
-
 my ($dbh, $err_db) = connect_db();
 die $err_db if $err_db;
 my ($hosts_ref, $err_hosts) = get_hosts($dbh);
@@ -32,7 +24,7 @@ foreach $host (@$hosts_ref) {
     $host_id = int($host_id);
     print "Now on host $ip...\n";
     my ($snmp_sess, $err_snmp) = connect_snmp($ip);
-    print STDERR $err_snmp . "\n" if $err_snmp;
+    &MYLOG($0, "connect_snmp", "$ip", $err_snmp) if $err_snmp;
     next if !defined $snmp_sess;
 
     my $res = $snmp_sess->get_request(-varbindlist =>
