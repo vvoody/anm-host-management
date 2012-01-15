@@ -19,7 +19,8 @@ die $err_hosts if $err_hosts;
 
 # get devices metas from database
 sub get_devices {
-    return select_table_cols($dbh, "devices", ["id", "device_idx"]);
+    my ($host_id) = @_;
+    return select_table_cols($dbh, "devices", ["id", "device_idx"], $host_id);
 }
 
 
@@ -38,7 +39,7 @@ foreach $host (@$hosts_ref) {
     # next if !defined $list_ref;
     # @devices_idx = @$list_ref;
 
-    my ($devices_ref, $err_devices) = get_devices();
+    my ($devices_ref, $err_devices) = get_devices($host_id);
     &MYLOG($0, "get_devices", "", $err_devices) if $err_devices;
     next if !defined $devices_ref;
 
