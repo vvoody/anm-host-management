@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `software_running` (
   `host_id` int(11) NOT NULL COMMENT 'hosts.id',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -140,10 +140,13 @@ CREATE TABLE IF NOT EXISTS `software_running_log` (
   `cpu_used` int(11) DEFAULT NULL COMMENT 'hrSWRunPerfCPU',
   `mem_allocated` int(11) DEFAULT NULL COMMENT 'hrSWRunPerfMem',
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `name` varchar(50) NOT NULL,
+  `host_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `software_running_id` (`software_running_id`),
-  KEY `stamp` (`stamp`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  KEY `stamp` (`stamp`),
+  KEY `host_id` (`host_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
