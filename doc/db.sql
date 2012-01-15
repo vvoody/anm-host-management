@@ -14,19 +14,35 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ci_sessions`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_sessions` (
+  `session_id` varchar(40) NOT NULL DEFAULT '0',
+  `ip_address` varchar(16) NOT NULL DEFAULT '0',
+  `user_agent` varchar(120) NOT NULL,
+  `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_data` text NOT NULL,
+  PRIMARY KEY (`session_id`),
+  KEY `last_activity_idx` (`last_activity`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `devices`
 --
 
 CREATE TABLE IF NOT EXISTS `devices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `descr` varchar(50) NOT NULL COMMENT 'hrDeviceDescr',
-  `type` varchar(50) NOT NULL COMMENT 'hrDeviceType',
-  `status` int(11) NOT NULL COMMENT 'hrDeviceStatus - unknown(1), running(2), warning(3), testing(4), down(5)',
+  `descr` varchar(50) DEFAULT NULL COMMENT 'hrDeviceDescr',
+  `type` varchar(50) DEFAULT NULL COMMENT 'hrDeviceType',
+  `status` int(11) DEFAULT NULL COMMENT 'hrDeviceStatus - unknown(1), running(2), warning(3), testing(4), down(5)',
   `host_id` int(11) NOT NULL COMMENT 'hosts.id',
   `device_idx` int(11) NOT NULL COMMENT 'hrDeviceIndex',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -42,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `devices_log` (
   PRIMARY KEY (`id`),
   KEY `device_id` (`device_id`),
   KEY `stamp` (`stamp`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -89,9 +105,9 @@ CREATE TABLE IF NOT EXISTS `hosts_log` (
 CREATE TABLE IF NOT EXISTS `software_installed` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'hrSWInstalledName',
-  `type` int(11) NOT NULL COMMENT 'hrSWInstalledType - unknown(1), operatingSystem(2), deviceDriver(3), application(4)',
+  `type` int(11) DEFAULT NULL COMMENT 'hrSWInstalledType - unknown(1), operatingSystem(2), deviceDriver(3), application(4)',
   `host_id` int(11) NOT NULL COMMENT 'hosts.id',
-  `last_update` datetime NOT NULL COMMENT 'hrSWInstalledDate',
+  `last_update` datetime DEFAULT NULL COMMENT 'hrSWInstalledDate',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -105,8 +121,8 @@ CREATE TABLE IF NOT EXISTS `software_installed` (
 CREATE TABLE IF NOT EXISTS `software_running` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'hrSWRunName',
-  `type` int(11) NOT NULL COMMENT 'hrSWRunType - unknown(1), operatingSystem(2), deviceDriver(3), application(4)',
-  `status` int(11) NOT NULL COMMENT 'hrSWRunStatus - running(1), runnable(2), notRunnable(3),  invalid(4)  ',
+  `type` int(11) DEFAULT NULL COMMENT 'hrSWRunType - unknown(1), operatingSystem(2), deviceDriver(3), application(4)',
+  `status` int(11) DEFAULT NULL COMMENT 'hrSWRunStatus - running(1), runnable(2), notRunnable(3),  invalid(4)  ',
   `host_id` int(11) NOT NULL COMMENT 'hosts.id',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
@@ -132,20 +148,37 @@ CREATE TABLE IF NOT EXISTS `software_running_log` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `statistics`
+--
+
+CREATE TABLE IF NOT EXISTS `statistics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `table` varchar(30) NOT NULL COMMENT 'table name of this database',
+  `col` varchar(30) NOT NULL COMMENT 'column name of table',
+  `pre_value` varchar(100) DEFAULT NULL,
+  `now_value` varchar(100) DEFAULT NULL,
+  `comment` varchar(100) DEFAULT NULL,
+  `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `storage`
 --
 
 CREATE TABLE IF NOT EXISTS `storage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `descr` varchar(50) NOT NULL COMMENT 'hrStorageDescr',
-  `type` varchar(50) NOT NULL COMMENT 'hrStorageType',
-  `size` int(11) NOT NULL COMMENT 'hrStorageSize',
-  `allocated_sectors` int(11) NOT NULL COMMENT 'hrStorageAllocationUnits',
+  `descr` varchar(50) DEFAULT NULL COMMENT 'hrStorageDescr',
+  `type` varchar(50) DEFAULT NULL COMMENT 'hrStorageType',
+  `size` int(11) DEFAULT NULL COMMENT 'hrStorageSize',
+  `allocated_sectors` int(11) DEFAULT NULL COMMENT 'hrStorageAllocationUnits',
   `host_id` int(11) NOT NULL COMMENT 'hosts.id',
   `storage_idx` int(11) NOT NULL COMMENT 'hrStorageIndex',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -162,7 +195,24 @@ CREATE TABLE IF NOT EXISTS `storage_log` (
   PRIMARY KEY (`id`),
   KEY `storage_id` (`storage_id`),
   KEY `stamp` (`stamp`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(20) NOT NULL,
+  `password` char(40) NOT NULL,
+  `account_type` varchar(20) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
