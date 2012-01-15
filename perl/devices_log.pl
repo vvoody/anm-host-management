@@ -34,8 +34,8 @@ foreach $host (@$hosts_ref) {
     next if !defined $snmp_sess;
 
     # $res = $snmp_sess->get_table(-baseoid => $hrDeviceTable);
-    # my ($list_ref, $err_idxs) = get_idxs($snmp_sess, $hrDeviceIndex);
-    # &MYLOG($0, "get_idxs", "$hrDeviceIndex", $err_idxs) if $err_idxs;
+    # my ($list_ref, $err_idxs) = snmp_get_cols($snmp_sess, $hrDeviceIndex);
+    # &MYLOG($0, "snmp_get_cols", "$hrDeviceIndex", $err_idxs) if $err_idxs;
     # next if !defined $list_ref;
     # @devices_idx = @$list_ref;
 

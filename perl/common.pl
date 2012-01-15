@@ -71,7 +71,7 @@ sub connect_snmp {
 }
 
 
-#
+# return ([1, 'localhost', 'public'], [2, '192.168.1.1', 'public'])
 sub select_table_cols {
     my ($dbh, $tabname, $cols, $host_id) = @_;
     my $sql = sprintf("SELECT %s FROM %s WHERE host_id = $host_id", join(",", @$cols), $tabname);
@@ -88,19 +88,19 @@ sub get_hosts {
 }
 
 
-# return (list_of_{devices,storage,...}_idx, err_msg)
-sub get_idxs {
-    my ($snmp_sess, $idx_oid) = @_;
-    my $res = $snmp_sess->get_entries(-columns => [$idx_oid]);
+# return { '1.2.3.4.0' => 'blabla', '1.2.3.8.0' => 11223344}
+sub snmp_get_cols {
+    my ($snmp_sess, $cols_ref) = @_;    # $cols_ref is a ref to list
+    my $res = $snmp_sess->get_entries(-columns => $cols_ref);
     my $hash_ref = $snmp_sess->var_bind_list();
     if ($hash_ref) {
-        my @idxs = values %$hash_ref;
-        return (\@idxs, undef);
+        return ($hash_ref, undef);
     }
     return (undef, $snmp_sess->error());
 }
 
 
+# insert {'host_id' => 1, 'errors' => 10, 'status' => 'running'} into database
 sub insert_hash {
     my ($dbh, $table, $field_values) = @_;
     # sort to keep field order, and thus sql, stable for prepare_cached
