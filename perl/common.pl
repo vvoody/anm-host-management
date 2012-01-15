@@ -74,7 +74,8 @@ sub connect_snmp {
 # return ([1, 'localhost', 'public'], [2, '192.168.1.1', 'public'])
 sub select_table_cols {
     my ($dbh, $tabname, $cols, $host_id) = @_;
-    my $sql = sprintf("SELECT %s FROM %s WHERE host_id = $host_id", join(",", @$cols), $tabname);
+    my $sql = sprintf("SELECT %s FROM %s WHERE host_id = $host_id and available = 1",
+                      join(",", @$cols), $tabname);
     my ($l_ref, $err) = get_rows($dbh, $sql);
     return ($l_ref, $err);
 }

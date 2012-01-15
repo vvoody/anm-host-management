@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `status` int(11) DEFAULT NULL COMMENT 'hrDeviceStatus - unknown(1), running(2), warning(3), testing(4), down(5)',
   `host_id` int(11) NOT NULL COMMENT 'hosts.id',
   `device_idx` int(11) NOT NULL COMMENT 'hrDeviceIndex',
+  `available` int(11) NOT NULL DEFAULT '1' COMMENT 'no(0), yes(1)',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
@@ -124,6 +125,7 @@ CREATE TABLE IF NOT EXISTS `software_running` (
   `type` int(11) DEFAULT NULL COMMENT 'hrSWRunType - unknown(1), operatingSystem(2), deviceDriver(3), application(4)',
   `status` int(11) DEFAULT NULL COMMENT 'hrSWRunStatus - running(1), runnable(2), notRunnable(3),  invalid(4)  ',
   `host_id` int(11) NOT NULL COMMENT 'hosts.id',
+  `available` int(11) NOT NULL DEFAULT '1' COMMENT 'no(0), yes(1)',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
@@ -156,14 +158,18 @@ CREATE TABLE IF NOT EXISTS `software_running_log` (
 
 CREATE TABLE IF NOT EXISTS `statistics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `table` varchar(30) NOT NULL COMMENT 'table name of this database',
+  `tabname` varchar(30) NOT NULL COMMENT 'table name of this database',
   `col` varchar(30) NOT NULL COMMENT 'column name of table',
   `pre_value` varchar(100) DEFAULT NULL,
   `now_value` varchar(100) DEFAULT NULL,
   `comment` varchar(100) DEFAULT NULL,
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `level` int(11) NOT NULL DEFAULT '1' COMMENT 'debug(0), info(1), warning(2), error(3), critical(4)',
+  `tid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `level` (`level`),
+  KEY `stamp` (`stamp`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -179,6 +185,7 @@ CREATE TABLE IF NOT EXISTS `storage` (
   `allocated_sectors` int(11) DEFAULT NULL COMMENT 'hrStorageAllocationUnits',
   `host_id` int(11) NOT NULL COMMENT 'hosts.id',
   `storage_idx` int(11) NOT NULL COMMENT 'hrStorageIndex',
+  `available` int(11) NOT NULL DEFAULT '1' COMMENT 'no(0), yes(1)',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
