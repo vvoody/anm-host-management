@@ -71,10 +71,19 @@ sub connect_snmp {
 }
 
 
+#
+sub select_table_cols {
+    my ($dbh, $tabname, $cols) = @_;
+    my $sql = sprintf("SELECT %s FROM %s", join(",", @$cols), $tabname);
+    my ($l_ref, $err) = get_rows($dbh, $sql);
+    return ($l_ref, $err);
+}
+
+
 # return (list_of_hosts_meta, err_msg)
 sub get_hosts {
-    my $dbh = $_[0];
-    my ($l_ref, $err) = get_rows($dbh, "SELECT id, ip_name, community from hosts");
+    my ($dbh) = @_;
+    my ($l_ref, $err) = select_table_cols($dbh, "hosts", ["id", "ip_name", "community"]);
     return ($l_ref, $err);
 }
 
