@@ -3,23 +3,26 @@ require_once 'header.php';
 require_once 'navigation.php';
 ?>
 
-<table border="0" width="100%" class="norm" cellpadding="0" cellspacing="0">
+<h2>You have:</h2>
+<table border="0" width="40%" class="norm" cellpadding="0" cellspacing="0">
 <tr>
-<th>ID</th>
-<th>IP</th>
-<th>Uptime</th>
-<th>Users</th>
-<th>Max Processes</th>
-<th>Memory Size</th>
-<th>Loaded Processes</th>
-<th>Host Monitoring</th>
+<th>Level</th>
+<th>Amount</th>
 </tr>
+<tr>
+  <td>WARNING</td>
+  <td><?php echo anchor('stats/index/warning', $warnings, 'style="text-decoration:underline;"');?></td>
+</tr>
+<tr>
+  <td>ERROR</td>
+  <td><?php echo anchor('stats/index/error', $errors, 'style="text-decoration:underline;"');?></td>
+</tr>
+<tr>
+  <td>CRITICAL</td>
+  <td><?php echo anchor('stats/index/critical',$criticals, 'style="text-decoration:underline;"');?></td>
+</tr>
+</table>
 
 <?php
-
-echo "</table>";
 require_once 'footer.php';
 ?>
-
-
-

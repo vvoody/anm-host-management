@@ -8,6 +8,10 @@ echo anchor('', 'Home');
 
 echo "<span>&bull;</span>";
 
+echo anchor('stats/', 'Statistics');
+
+echo "<span>&bull;</span>";
+
 echo anchor('host/show/all', 'Hosts');
 
 echo "<span>&bull;</span>";

@@ -6,10 +6,18 @@ class Master extends CI_Controller {
         parent::__construct();
         $this->load->helper('form');
         $this->load->helper('url');
+        $this->load->model('Statistics_model', '', TRUE);
     }
 
     public function index() {
         if ($this->session->userdata('logged_in') == TRUE) {
+            $num_warnings = $this->Statistics_model->get_nums("WARNING");
+            $num_errors = $this->Statistics_model->get_nums("ERROR");
+            $num_criticals = $this->Statistics_model->get_nums("CRITICAL");
+            $data['warnings'] = $num_warnings;
+            $data['errors'] = $num_errors;
+            $data['criticals'] = $num_criticals;
+
             $data['title'] = "Home";
             $this->load->view('home', $data);
         }
