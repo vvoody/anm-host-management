@@ -28,6 +28,7 @@ class Host extends CI_Controller {
         }
         else {
             $data['title'] = "Host";
+            $data['host_id'] = $host;
             $this->load->view('host_one', $data);
         }
     }
