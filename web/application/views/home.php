@@ -3,7 +3,7 @@ require_once 'header.php';
 require_once 'navigation.php';
 ?>
 
-<h2>You have:</h2>
+<h2>You have following alarms in the recent week:</h2><br />
 <table border="0" width="40%" class="norm" cellpadding="0" cellspacing="0">
 <tr>
 <th>Level</th>
