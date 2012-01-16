@@ -158,14 +158,16 @@ CREATE TABLE IF NOT EXISTS `software_running_log` (
 
 CREATE TABLE IF NOT EXISTS `statistics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tabname` varchar(30) NOT NULL COMMENT 'table name of this database',
-  `col` varchar(30) NOT NULL COMMENT 'column name of table',
+  `component` varchar(30) NOT NULL COMMENT 'device, storage, software_running...',
+  `event` varchar(30) NOT NULL COMMENT 'status, available, errors, found, removed...',
   `pre_value` varchar(100) DEFAULT NULL,
   `now_value` varchar(100) DEFAULT NULL,
   `comment` varchar(100) DEFAULT NULL,
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `level` int(11) NOT NULL DEFAULT '1' COMMENT 'debug(0), info(1), warning(2), error(3), critical(4)',
-  `tid` int(11) DEFAULT NULL,
+  `tid` int(11) DEFAULT NULL COMMENT 'id of record in the table',
+  `cmpt_idx` int(11) NOT NULL,
+  `host_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `level` (`level`),
   KEY `stamp` (`stamp`)

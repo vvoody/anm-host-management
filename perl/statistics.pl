@@ -58,6 +58,13 @@ sub st_devices {
 #        print Dumper($field_values);
         my $st = insert_hash($dbh, "devices", $field_values);
         &MYLOG($0, "insert_hash", "devices|$field_values", "insert failed") if !defined $st;
+
+        $field_values = {"component" => "device",
+                         "cmpt_idx" => $e,
+                         "event" => "found",
+                         "host_id" => $host_id};
+        my $st = insert_hash($dbh, "statistics", $field_values);
+        &MYLOG($0, "insert_hash", "statistics|$field_values", "insert failed") if !defined $st;
     }
 
     # update common if changed, $s_old * $s_new;
@@ -69,16 +76,18 @@ sub st_devices {
 
     # alarm device disappeared, $s_old - $s_new;
     my $s_notavlb = $s_old - $s_new;
+    # my @m = (1616);
+    # my $s_notavlb = Set::Scalar->new(@m);
     print "alarm not available: $s_notavlb\n";
     while (defined(my $e = $s_notavlb->each)) {
-#        $dbh->do("UPDATE devices SET available = 0 where host_id = $host_id and device_idx = $e");
-        $field_values = {"tabname" => "devices",
-                         "col" => "available",
-                         "pre_value" => 1,
-                         "now_value" => 0,
+        $dbh->do("UPDATE devices SET available = 0 where host_id = $host_id and device_idx = $e");
+
+        $field_values = {"component" => "device",
+                         "cmpt_idx" => $e,
+                         "event" => "not available",
+                         "host_id" => $host_id,
                          "level" => 2,
-                         "tid" => $devs->{$e},
-                         "comment" => "device $e of host $host_id is not available now!"};
+                         "tid" => $devs->{$e}};
         my $st = insert_hash($dbh, "statistics", $field_values);
         &MYLOG($0, "insert_hash", "statistics|$field_values", "insert failed") if !defined $st;
     }
@@ -140,6 +149,13 @@ sub st_storage {
 #        print Dumper($field_values);
         my $st = insert_hash($dbh, "storage", $field_values);
         &MYLOG($0, "insert_hash", "devices|$field_values", "insert failed") if !defined $st;
+
+        $field_values = {"component" => "storage",
+                         "cmpt_idx" => $e,
+                         "event" => "found",
+                         "host_id" => $host_id};
+        my $st = insert_hash($dbh, "statistics", $field_values);
+        &MYLOG($0, "insert_hash", "statistics|$field_values", "insert failed") if !defined $st;
     }
 
     # alarm device disappeared, $s_old - $s_new;
@@ -149,13 +165,13 @@ sub st_storage {
     print "alarm not available: $s_notavlb\n";
     while (defined(my $e = $s_notavlb->each)) {
         $dbh->do("UPDATE storage SET available = 0 where host_id = $host_id and storage_idx = $e");
-        $field_values = {"tabname" => "storage",
-                         "col" => "available",
-                         "pre_value" => 1,
-                         "now_value" => 0,
+
+        $field_values = {"component" => "storage",
+                         "cmpt_idx" => $e,
+                         "event" => "not available",
+                         "host_id" => $host_id,
                          "level" => 2,
-                         "tid" => $storage->{$e},
-                         "comment" => "storage $e of host $host_id is not available now!"};
+                         "tid" => $storage->{$e}};
         my $st = insert_hash($dbh, "statistics", $field_values);
         &MYLOG($0, "insert_hash", "statistics|$field_values", "insert failed") if !defined $st;
     }
@@ -176,8 +192,8 @@ my ($hosts_ref, $err_hosts) = get_hosts($dbh);
 die $err_hosts if $err_hosts;
 
 foreach $host (@$hosts_ref) {
-#    st_devices($host);
+    st_devices($host);
     st_storage($host);
 #    st_software_running($host);
-    last;
+#    last;
 }
