@@ -16,8 +16,6 @@ class Storage extends CI_Controller {
     }
 
     public function showall($host_id) {
-        $this->load->helper('form');
-        $this->load->helper('url');
         $data['title'] = "Storage of Host $host_id";
         $data['host_id'] = $host_id;
         $data['storage'] = $this->Storage_model->get_storage($host_id);
@@ -25,7 +23,9 @@ class Storage extends CI_Controller {
     }
 
     public function graph($type="daily", $storage_id) {
-        ;
+        $data['title'] = "$type graph of storage $storage_id";
+        $data['storage_id'] = $storage_id;
+        $this->load->view('graph', $data);
     }
 
 }
