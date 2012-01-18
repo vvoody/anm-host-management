@@ -7,7 +7,10 @@ require_once 'navigation.php';
 echo 'Level';
 echo "<span>&nbsp;</span>";
 
-echo anchor('stats/index/info', 'INFO');
+echo anchor('stats/index/log', 'LOG');
+echo "<span>&bull;</span>";
+
+echo anchor('stats/index/notice', 'NOTICE');
 echo "<span>&bull;</span>";
 
 echo anchor('stats/index/warning', 'WARNING');

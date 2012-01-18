@@ -15,7 +15,7 @@ class Stats extends CI_Controller {
             $this->load->library('pagination');
 
             // stats/index/LEVEL/PAGE
-            $level =  $this->uri->segment(3) ? $this->uri->segment(3) : "info";
+            $level =  $this->uri->segment(3) ? $this->uri->segment(3) : "log";
 
             $config['base_url'] = site_url("stats/index/$level");
             $config['total_rows'] = $this->db->count_all($this->tname);
