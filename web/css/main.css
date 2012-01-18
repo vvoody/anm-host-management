@@ -7,7 +7,7 @@
 a				{ text-decoration: none; color: #527619; }
 img				{ border: none; }
 li				{ list-style: none; }
-body			{ font: normal 11px Verdana; color: #353535; background-color: #F6F6E8; }
+body			{ font: normal 12px Verdana; color: #353535; background-color: #F6F6E8; }
 
 /* Main Divs */
 
@@ -65,3 +65,63 @@ body			{ font: normal 11px Verdana; color: #353535; background-color: #F6F6E8; }
 
 .footer			{ padding: 20px 25px; border-top: 1px dashed #ccc; }
 .footer p		{ font: normal 10px Verdana; color: #666; }
+
+/* dashboard page, from phpMyAdmin */
+
+#mysqlmaininformation,
+#pmamaininformation {
+    float: left;
+    width: 49%;
+}
+
+#maincontainer ul {
+    list-style-type: disc;
+    vertical-align: middle;
+}
+
+#maincontainer li {
+    margin:  0.5em 3em;
+    /* margin: 5px 10px; */
+}
+
+#main_pane_left {
+    width:              60%;
+    float:              left;
+    padding-top:        1em;
+}
+
+#main_pane_right {
+    margin-left: 60%;
+    padding-top: 1em;
+    padding-left: 1em;
+}
+
+.group {
+    border-left: 0.3em solid #87AB4F/*#9CA096*/;
+    margin-bottom:      1em;
+}
+
+.group h2 {
+    background:         #87AB4F;
+    padding:            0.1em 0.3em;
+    margin-top:         0;
+    color:              white;
+}
+
+.group-cnt {
+    padding: 0 0 0 0.5em;
+    display: inline-block;
+    width: 98%;
+}
+
+.group th {
+    background-color: white;
+}
+
+/* iconic view for ul items */
+li#li_change_password {
+    list-style-image: url(../images/icons/s_passwd.png);
+}
+/* END iconic view for ul items */
+
+/* END dashboard page */
