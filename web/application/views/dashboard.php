@@ -13,6 +13,10 @@
           <h3>You have following alarms in the recent week:</h2>
           <table border="0" width="30%" class="norm" cellpadding="0" cellspacing="0">
           <tr>
+            <td>NOTICE</td>
+            <td><?php echo anchor('stats/index/notice', $notices, 'style="text-decoration:underline;"');?></td>
+          </tr>
+          <tr>
             <td>WARNING</td>
             <td><?php echo anchor('stats/index/warning', $warnings, 'style="text-decoration:underline;"');?></td>
           </tr>

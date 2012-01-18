@@ -11,9 +11,11 @@ class Master extends CI_Controller {
 
     public function index() {
         if ($this->session->userdata('logged_in') == TRUE) {
+            $num_notices = $this->Statistics_model->get_nums("NOTICE");
             $num_warnings = $this->Statistics_model->get_nums("WARNING");
             $num_errors = $this->Statistics_model->get_nums("ERROR");
             $num_criticals = $this->Statistics_model->get_nums("CRITICAL");
+            $data['notices'] = $num_notices;
             $data['warnings'] = $num_warnings;
             $data['errors'] = $num_errors;
             $data['criticals'] = $num_criticals;

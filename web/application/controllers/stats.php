@@ -32,7 +32,7 @@ class Stats extends CI_Controller {
             $this->load->library('table');
             $tmpl = array('table_open' => '<table border="0" width="100%" class="norm" cellpadding="0" cellspacing="0">');
             $this->table->set_template($tmpl);
-            $this->table->set_heading('id', 'component', 'event', 'pre_value', 'now_value', 'comment', 'stamp', 'level', 'tid', 'cmpt_idx', 'host_id');
+            $this->table->set_heading('id', 'component', 'event', 'pre_value', 'now_value', 'comment', 'stamp', 'level', 'tid', 'cmpt_idx', 'host_id', 'solved');
             $data['title'] = "Statistics of $level";
             $data['debug_info'] = "lv: ". $level . ", per_page: " . $config['per_page'] . ", offset: " . $this->uri->segment(4);
             $this->load->view('statistics', $data);

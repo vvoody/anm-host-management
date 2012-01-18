@@ -16,6 +16,7 @@ class Statistics_model extends CI_Model {
 
     public function get_nums($level) {
         $this->db->where('level', $this->level[$level]);
+        $this->db->where('solved', 0);  // 0 means not solved yes, 1 means solved.
         $query = $this->db->get($this->tname);
         return $query->num_rows();
     }

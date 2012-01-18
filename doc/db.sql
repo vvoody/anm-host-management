@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `software_installed` (
   `last_update` datetime DEFAULT NULL COMMENT 'hrSWInstalledDate',
   PRIMARY KEY (`id`),
   KEY `host_id` (`host_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -164,10 +164,11 @@ CREATE TABLE IF NOT EXISTS `statistics` (
   `now_value` varchar(100) DEFAULT NULL,
   `comment` varchar(100) DEFAULT NULL,
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `level` int(11) NOT NULL DEFAULT '1' COMMENT 'debug(0), info(1), warning(2), error(3), critical(4)',
+  `level` int(11) NOT NULL DEFAULT '0' COMMENT 'log(0), notice(1), warning(2), error(3), critical(4)',
   `tid` int(11) DEFAULT NULL COMMENT 'id of record in the table',
-  `cmpt_idx` int(11) NOT NULL,
-  `host_id` int(11) NOT NULL,
+  `cmpt_idx` int(11) DEFAULT NULL,
+  `host_id` int(11) DEFAULT NULL,
+  `solved` int(11) NOT NULL DEFAULT '0' COMMENT 'not solved(0), solved(1). logs whose level >= NOTICE must be solved by Admin/user.',
   PRIMARY KEY (`id`),
   KEY `level` (`level`),
   KEY `stamp` (`stamp`)
