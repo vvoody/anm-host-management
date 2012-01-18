@@ -37,8 +37,8 @@
     <div class="group">
       <h2>Personal Setting</h2>
       <ul>
-        <li>Hej, xxxx!</li>
-        <li id="li_change_password"><a href="#">Change password</a></li>
+        <li>Hej, <?php echo $username;?>!</li>
+        <li id="li_change_password"><a href="<?php echo $password_url;?>">Change password</a></li>
       </ul>
     </div>
     <div class="group">

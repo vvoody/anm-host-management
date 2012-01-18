@@ -21,6 +21,8 @@ class Master extends CI_Controller {
             $data['criticals'] = $num_criticals;
 
             $data['title'] = "Home";
+            $data['username'] = $this->session->userdata('username');
+            $data['password_url'] = site_url("master/password");
             $this->load->view('home', $data);
         }
         else {
@@ -51,6 +53,7 @@ class Master extends CI_Controller {
             if ($user) {
                 if (crypt($password, $user->password) == $user->password) {
                     $this->session->set_userdata('logged_in', TRUE);
+                    $this->session->set_userdata('username', $username);
                     if ($user->account_type == "Admin")
                         $this->session->set_userdata('isAdmin', TRUE);
                     $this->my_redirect();
@@ -66,6 +69,36 @@ class Master extends CI_Controller {
     public function logout() {
         $this->session->sess_destroy();
         $this->my_redirect();
+    }
+
+    public function password() {
+        $action = $this->uri->segment(3);  // master/password/change
+        if (isset($action) && $action == 'change') {
+            $old_password = $this->input->post('old_password');
+            $new_password = $this->input->post('new_password');
+            $username = $this->session->userdata('username');
+            $this->load->model('User_model', '', TRUE);
+            $user = $this->User_model->get_user_by_username($username);
+            if ($user) {
+                if (crypt($old_password, $user->password) == $user->password) {
+                    if (trim($new_password)) {
+                        $userdata = array('password' => crypt($new_password));
+                        $this->User_model->update_user($username, $userdata);
+                        $this->my_redirect();
+                    }
+                    else
+                        $data['warning'] = 'New password is not accepted!';
+                }
+                else
+                    $data['warning'] = 'Old password is not accepted!';
+            }
+            else
+                $data['warning'] = 'You do not exist in the database!';
+        }
+        else
+            $data['title'] = 'Change Password';
+
+        $this->load->view('password', $data);
     }
 
     // default redirect to index
