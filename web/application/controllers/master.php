@@ -15,14 +15,22 @@ class Master extends CI_Controller {
             $num_warnings = $this->Statistics_model->get_nums("WARNING");
             $num_errors = $this->Statistics_model->get_nums("ERROR");
             $num_criticals = $this->Statistics_model->get_nums("CRITICAL");
-            $data['notices'] = $num_notices;
-            $data['warnings'] = $num_warnings;
-            $data['errors'] = $num_errors;
-            $data['criticals'] = $num_criticals;
+            $username = $this->session->userdata('username');
 
-            $data['title'] = "Home";
-            $data['username'] = $this->session->userdata('username');
-            $data['password_url'] = site_url("master/password");
+            $data = array('notices' => $num_notices,
+                          'warnings' => $num_warnings,
+                          'errors' => $num_errors,
+                          'criticals' => $num_criticals,
+                          'title' => 'Home',
+                          'username' => $username,
+                          'password_url' => site_url("master/password"),
+                          'this_system_version' => $this->config->item('anm_host_management_version'),
+                          'sys_load' => sys_getloadavg(),
+                          'web_server' => $_SERVER['SERVER_SOFTWARE'],
+                          'admin_email' => $_SERVER['SERVER_ADMIN'],
+                          'user_activities' => $this->Statistics_model->user_last_activities($username, 5),
+                );
+
             $this->load->view('home', $data);
         }
         else {
@@ -56,6 +64,11 @@ class Master extends CI_Controller {
                     $this->session->set_userdata('username', $username);
                     if ($user->account_type == "Admin")
                         $this->session->set_userdata('isAdmin', TRUE);
+
+                    $this->Statistics_model->add(array('component' => $username,
+                                                       'event' => 'logged in',
+                                                       'solved' => 1));
+
                     $this->my_redirect();
                     return;
                 }
@@ -84,6 +97,9 @@ class Master extends CI_Controller {
                     if (trim($new_password)) {
                         $userdata = array('password' => crypt($new_password));
                         $this->User_model->update_user($username, $userdata);
+                        $this->Statistics_model->add(array('component' => $username,
+                                                           'event' => 'changed password',
+                                                           'solved' => 1));
                         $this->my_redirect();
                     }
                     else

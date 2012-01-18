@@ -21,4 +21,16 @@ class Statistics_model extends CI_Model {
         return $query->num_rows();
     }
 
+    public function add($data) {
+        $this->db->insert($this->tname, $data);
+    }
+
+    public function user_last_activities($username, $limit) {
+        $this->db->where('component', $username);
+        $this->db->order_by("stamp", "desc");
+        $this->db->limit($limit);
+        $query = $this->db->get($this->tname);
+        return $query->result();
+    }
+
 }

@@ -114,14 +114,36 @@ body			{ font: normal 12px Verdana; color: #353535; background-color: #F6F6E8; }
     width: 98%;
 }
 
-.group th {
-    background-color: white;
-}
-
-/* iconic view for ul items */
 li#li_change_password {
     list-style-image: url(../images/icons/s_passwd.png);
 }
-/* END iconic view for ul items */
+
+td#td_notice {
+    font-weight: bold;
+    color: blue;
+    background-color: #BDC9BD;
+}
+
+td#td_warning {
+    font-weight: bold;
+    color: orange;
+    background-color: #BDC9BD;
+}
+
+td#td_error {
+    font-weight: bold;
+    color: red;
+    background-color: #BDC9BD;
+}
+
+td#td_critical {
+    font-weight: bold;
+    color: #FF00BF;
+    background-color: #BDC9BD;
+}
+
+#ul_disc {
+    list-style: disc;
+}
 
 /* END dashboard page */
