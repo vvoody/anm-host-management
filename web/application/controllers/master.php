@@ -31,6 +31,13 @@ class Master extends CI_Controller {
                           'user_activities' => $this->Statistics_model->user_last_activities($username, 5),
                 );
 
+            $alarm_level = 'only_notsolved';
+            $data['results'] = $this->Statistics_model->get_stats(strtoupper($alarm_level),
+                                                                  10,
+                                                                  0,
+                                                                  TRUE)->result();
+            $data['alarm_level'] = $alarm_level;
+
             $this->load->view('home', $data);
         }
         else {

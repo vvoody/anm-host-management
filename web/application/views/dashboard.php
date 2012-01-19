@@ -1,32 +1,35 @@
 <div id="maincontainer">
   <div id="main_pane_left">
     <div class="group">
-      <h2>General Status</h2>
-      <ul>
-        <li>blablabla</li>
-      </ul>
-    </div>
-    <div class="group">
       <h2>PAY ATTENTION!</h2>
       <ul>
         <li>
+          <?php require_once 'alarms.php'; ?>
+        </li>
+        <li>
           <table border="0" width="100%" class="norm" cellpadding="0" cellspacing="0">
-          <tr>
-            <td><?php echo anchor('stats/index/notice', $notices, 'style="text-decoration:underline;"');?></td>
-            <td><?php echo anchor('stats/index/warning', $warnings, 'style="text-decoration:underline;"');?></td>
-            <td><?php echo anchor('stats/index/error', $errors, 'style="text-decoration:underline;"');?></td>
-            <td><?php echo anchor('stats/index/critical',$criticals, 'style="text-decoration:underline;"');?></td>
-          </tr>
           <tr>
             <td id="td_notice">NOTICE</td>
             <td id="td_warning">WARNING</td>
             <td id="td_error">ERROR</td>
             <td id="td_critical">CRITICAL</td>
           </tr>
+          <tr>
+            <td><?php echo anchor('stats/index/notice', $notices, 'style="text-decoration:underline;"');?></td>
+            <td><?php echo anchor('stats/index/warning', $warnings, 'style="text-decoration:underline;"');?></td>
+            <td><?php echo anchor('stats/index/error', $errors, 'style="text-decoration:underline;"');?></td>
+            <td><?php echo anchor('stats/index/critical',$criticals, 'style="text-decoration:underline;"');?></td>
+          </tr>
           </table>
         </li>
       </ul>
     </div>
+<!--    <div class="group">       -->
+<!--      <h2>General Status</h2> -->
+<!--      <ul>                    -->
+<!--        <li>blablabla</li>    -->
+<!--      </ul>                   -->
+<!--    </div>                    -->
   </div>
   <div id="main_pane_right">
     <div class="group">

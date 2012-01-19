@@ -15,6 +15,7 @@ class Statistics_model extends CI_Model {
             $this->db->where('level', $this->level[$level]);
             if ($only_notsolved) $this->db->where('solved', 0);
         }
+        $this->db->order_by('stamp', 'desc');
         $query = $this->db->get($this->tname, $num, $offset);
         return $query;
     }
@@ -36,6 +37,11 @@ class Statistics_model extends CI_Model {
         $this->db->limit($limit);
         $query = $this->db->get($this->tname);
         return $query->result();
+    }
+
+    public function set_solved($id) {
+        $this->db->where('id', $id);
+        $this->db->update($this->tname, array('solved' => 1));
     }
 
 }

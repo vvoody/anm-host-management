@@ -152,3 +152,7 @@ td#td_critical {
     font-weight: bold;
     color: red;
 }
+
+#url_underline {
+    text-decoration: underline;
+}

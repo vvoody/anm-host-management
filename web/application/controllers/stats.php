@@ -36,12 +36,20 @@ class Stats extends CI_Controller {
                                                                   $config['per_page'],
                                                                   $this->uri->segment(4),
                                                                   $only_notsolved)->result();
+            $data['alarm_level'] = $level;
             $data['title'] = "Statistics of $level";
 //            $data['debug_info'] = "lv: ". $level . ", per_page: " . $config['per_page'] . ", offset: " . $this->uri->segment(4);
             $this->load->view('statistics', $data);
         }
         else {
-            $this->my_redirect('login');
+            redirect('login');
+        }
+    }
+
+    public function solve($alarm_id) {
+        if ((int)$alarm_id > 0){
+            $this->Statistics_model->set_solved($alarm_id);
+            redirect('stats');
         }
     }
 
