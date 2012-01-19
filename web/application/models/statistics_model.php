@@ -8,8 +8,13 @@ class Statistics_model extends CI_Model {
         $this->level = array('LOG'=>0, "NOTICE"=>1, "WARNING"=>2, "ERROR"=>3, "CRITICAL"=>4);
     }
 
-    public function get_stats($level, $num, $offset) {
-        $this->db->where('level', $this->level[$level]);
+    public function get_stats($level, $num, $offset, $only_notsolved=FALSE) {
+        if (strtolower($level) == 'only_notsolved' && $only_notsolved)
+            $this->db->where('solved', 0);
+        else {
+            $this->db->where('level', $this->level[$level]);
+            if ($only_notsolved) $this->db->where('solved', 0);
+        }
         $query = $this->db->get($this->tname, $num, $offset);
         return $query;
     }

@@ -142,8 +142,13 @@ td#td_critical {
     background-color: #BDC9BD;
 }
 
-#ul_disc {
+#li_disc {
     list-style: disc;
 }
 
 /* END dashboard page */
+
+#not_solved {
+    font-weight: bold;
+    color: red;
+}
