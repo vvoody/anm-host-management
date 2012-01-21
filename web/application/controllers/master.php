@@ -38,6 +38,16 @@ class Master extends CI_Controller {
                                                                   TRUE)->result();
             $data['alarm_level'] = $alarm_level;
 
+            $this->load->model('Host_model', '', TRUE);
+            $this->load->model('User_model', '', TRUE);
+            $this->load->model('Device_model', '', TRUE);
+            $this->load->model('Storage_model', '', TRUE);
+
+            $data['num_hosts'] = count($this->Host_model->get_hosts());
+            $data['num_users'] = count($this->User_model->get_users());
+            $data['num_devices'] = count($this->Device_model->get_devices());
+            $data['num_storage'] = count($this->Storage_model->get_storage());
+
             $this->load->view('home', $data);
         }
         else {

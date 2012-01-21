@@ -30,7 +30,8 @@ require_once 'alarms.php';
 ?>
 
 <?php
-echo $this->pagination->create_links();
+if ($this->uri->segment(2) != "show")
+    echo $this->pagination->create_links();
 //echo $debug_info;
 require_once 'footer.php';
 ?>

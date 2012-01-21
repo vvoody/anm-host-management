@@ -3,14 +3,13 @@
     <th>Alarm ID</th>
     <th>Content</th>
 <?php $show_action = FALSE;
-      if ($alarm_level == 'only_notsolved' && $this->session->userdata('isAdmin') == TRUE) {
-          echo "<th>Action</th>";
+      if ($this->session->userdata('isAdmin') == TRUE) {
+          echo "<th>Status</th>";
           $show_action = TRUE;
       }
 ?>
     </tr>
 <?php
-//echo $this->table->generate($results);
 foreach ($results as $row) {
     $id = $row->id;
     $component = $row->component;
@@ -23,7 +22,7 @@ foreach ($results as $row) {
     $tid = $row->tid;
     $cmpt_idx = $row->cmpt_idx;
     $host_id = $row->host_id;
-    $solved = $row->solved == 1 ? "YES" : "NO";
+    $solved = $row->solved;
     echo "<tr>";
     echo "<td>$id</td>";
     switch ($component) {
@@ -37,8 +36,10 @@ foreach ($results as $row) {
         default:
             echo "<td>$component $event</td>";
     }
-    if ($alarm_level == 'only_notsolved' && $show_action)
-        echo '<td>' . anchor("stats/solve/$id", 'I know it, problem solved.', 'id="url_underline"') . "</td>";
+    if ($show_action && $solved == 0)
+        echo '<td>Not solved, ' . anchor("stats/solve/$id", 'make it solved...', 'id="url_underline"') . "</td>";
+    else
+        echo "<td>Already solved.</td>";
     echo "</tr>";
 }
 ?>

@@ -53,4 +53,10 @@ class Stats extends CI_Controller {
         }
     }
 
+    public function show($id) {
+        $data['title'] = "Details of alarm $id";
+        $data['results'] = $this->Statistics_model->get_alarm($id);
+        $this->load->view('statistics', $data);
+    }
+
 }

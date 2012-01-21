@@ -2,10 +2,8 @@
   <div id="main_pane_left">
     <div class="group">
       <h2>PAY ATTENTION!</h2>
+      <?php require_once 'alarms_brief.php'; ?>
       <ul>
-        <li>
-          <?php require_once 'alarms.php'; ?>
-        </li>
         <li>
           <table border="0" width="100%" class="norm" cellpadding="0" cellspacing="0">
           <tr>
@@ -24,12 +22,16 @@
         </li>
       </ul>
     </div>
-<!--    <div class="group">       -->
-<!--      <h2>General Status</h2> -->
-<!--      <ul>                    -->
-<!--        <li>blablabla</li>    -->
-<!--      </ul>                   -->
-<!--    </div>                    -->
+    <div class="group">
+      <h2>General Info</h2>
+      <ul>
+        <li>
+        <?php
+          echo "We have managed " . anchor('host/show/all', $num_hosts) . " host(s), " . $num_devices . " devices and " . $num_storage . " storage. And there are " . anchor('user/show/all', $num_users) . " users registered in this system.";
+        ?>
+        </li>
+      </ul>
+    </div>
   </div>
   <div id="main_pane_right">
     <div class="group">

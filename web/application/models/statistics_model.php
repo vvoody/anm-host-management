@@ -44,4 +44,11 @@ class Statistics_model extends CI_Model {
         $this->db->update($this->tname, array('solved' => 1));
     }
 
+    public function get_alarm($id) {
+        $this->db->where('id', $id);
+        $this->db->where('solved', 0);
+        $query = $this->db->get($this->tname);
+        return $query->result();
+    }
+
 }
