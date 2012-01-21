@@ -2,6 +2,7 @@
 
 <?php
 //echo $this->table->generate($results);
+$there_are_alarms = FALSE;
 foreach ($results as $row) {
     $id = $row->id;
     $component = $row->component;
@@ -29,7 +30,12 @@ foreach ($results as $row) {
     }
     echo " -> " . anchor("stats/show/$id", 'check');
     echo "</li>";
+    $there_are_alarms = TRUE;
 }
+
+if (! $there_are_alarms)
+   echo "<li>No alarms, everything is OK.</li>";
+
 ?>
 
 </ul>
