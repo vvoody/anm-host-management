@@ -2,14 +2,11 @@
   <tr>
     <th>Alarm ID</th>
     <th>Content</th>
-<?php $show_action = FALSE;
-      if ($this->session->userdata('isAdmin') == TRUE) {
-          echo "<th>Status</th>";
-          $show_action = TRUE;
-      }
-?>
+    <th>Status</th>
     </tr>
 <?php
+$isAdmin = $this->session->userdata('isAdmin') ? TRUE : FALSE;
+
 foreach ($results as $row) {
     $id = $row->id;
     $component = $row->component;
@@ -36,7 +33,7 @@ foreach ($results as $row) {
         default:
             echo "<td>$component $event</td>";
     }
-    if ($show_action && $solved == 0)
+    if ($isAdmin && $solved == 0)
         echo '<td>Not solved, ' . anchor("stats/solve/$id", 'make it solved...', 'id="url_underline"') . "</td>";
     else
         echo "<td>Already solved.</td>";

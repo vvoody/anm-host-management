@@ -47,7 +47,7 @@ class Stats extends CI_Controller {
     }
 
     public function solve($alarm_id) {
-        if ((int)$alarm_id > 0){
+        if ($this->session->userdata('isAdmin') &&  (int)$alarm_id > 0){
             $this->Statistics_model->set_solved($alarm_id);
             redirect('stats');
         }
