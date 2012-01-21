@@ -177,30 +177,6 @@ sub st_storage {
     }
 
     $snmp_sess->close();
-
-    # hrStorageUsed / hrStorageSize > 0.9 then alarm
-    # [id, storage_idx, size]
-    foreach $r (@$l_ref) {
-        my ($storage_id, $storage_idx, $size) = @$r;
-        my ($rows_ref, $err_rows) = get_rows($dbh, "SELECT used_capacity FROM storage_log WHERE storage_id = $storage_id order by stamp desc limit 1");
-        if ($rows_ref) {
-            foreach $row (@$rows_ref) {
-                my ($used_capacity) = @$row;
-                if ($used_capacity && ($used_capacity / $size) > 0.9) {
-                    print STDERR "storage $storage_idx of host $host_id has no enough space!\n";
-                    $field_values = {"component" => "storage",
-                                     "cmpt_idx" => $storage_idx,
-                                     "event" => "space used over 90%",
-                                     "host_id" => $host_id,
-                                     "level" => 2,              # WARNING
-                    };
-                    my $st = insert_hash($dbh, "statistics", $field_values);
-                    &MYLOG($0, "insert_hash", "statistics|$field_values", "insert failed") if !defined $st;
-                }
-                last;
-            }
-        }
-    }
 }
 
 my ($dbh, $err_db) = connect_db();
