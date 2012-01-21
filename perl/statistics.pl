@@ -203,13 +203,6 @@ sub st_storage {
     }
 }
 
-
-# do statistics for software_running
-sub st_software_running {
-    ;
-}
-
-
 my ($dbh, $err_db) = connect_db();
 die $err_db if $err_db;
 my ($hosts_ref, $err_hosts) = get_hosts($dbh);
@@ -218,6 +211,4 @@ die $err_hosts if $err_hosts;
 foreach $host (@$hosts_ref) {
     st_devices($host);
     st_storage($host);
-#    st_software_running($host);
-#    last;
 }

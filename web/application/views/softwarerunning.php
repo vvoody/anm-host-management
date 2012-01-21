@@ -9,12 +9,11 @@ echo anchor("softwarerunning/showall/$host_id", 'Runnning Software');
 echo "</div>";
 ?>
 
-
-
+Type: unknown(1), operatingSystem(2), deviceDriver(3), application(4)<br />
+Status: running(1), runnable(2), notRunnable(3), invalid(4)
 
 <table border="0" width="100%" class="norm" cellpadding="0" cellspacing="0">
 <tr>
-<th>ID</th>
 <th>Name</th>
 <th>Type</th>
 <th>Status</th>
@@ -31,7 +30,6 @@ foreach ($softwarerunning as $row) {
     $status = $row->status;
     $hid = $row->host_id;
     echo "<tr>";
-    echo "<td>$id</td>";
     echo "<td>$name</td>";
     echo "<td>$type</td>";
     echo "<td>$status</td>";

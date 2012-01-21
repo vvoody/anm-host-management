@@ -49,6 +49,8 @@ foreach $host (@$hosts_ref) {
     @swrun_idxs = values %$hash_ref;
 
     my ($hash_ref, $err_cols) = snmp_get_cols($snmp_sess, [$hrSWRunName,
+                                                           $hrSWRunType,
+                                                           $hrSWRunStatus,
                                                            $hrSWRunPerfCPU,
                                                            $hrSWRunPerfMem]);
     &MYLOG($0, "snmp_get_cols", "swrunname, swruncpu, swrunmem", $err_cols) if $err_cols;
@@ -56,14 +58,18 @@ foreach $host (@$hosts_ref) {
 
     @rows;
     foreach $idx (@swrun_idxs) {
-        my ($cpu_used, $mem_allocated, $name) = ($hash_ref->{$hrSWRunPerfCPU . ".$idx"},
-                                                 $hash_ref->{$hrSWRunPerfMem . ".$idx"},
-                                                 $hash_ref->{$hrSWRunName . ".$idx"});
+        my ($cpu_used, $mem_allocated, $name, $type, $status) = ($hash_ref->{$hrSWRunPerfCPU . ".$idx"},
+                                                                 $hash_ref->{$hrSWRunPerfMem . ".$idx"},
+                                                                 $hash_ref->{$hrSWRunName . ".$idx"},
+                                                                 $hash_ref->{$hrSWRunType . ".$idx"},
+                                                                 $hash_ref->{$hrSWRunStatus . ".$idx"});
         if ($cpu_used && $mem_allocated && $name) {
             $field_values =  {"cpu_used" => $cpu_used,
                               "mem_allocated" => $mem_allocated,
                               "name" => $name,
-                              "host_id" => $host_id};
+                              "host_id" => $host_id,
+                              "type" => $type,
+                              "status" => $status};
             my $st = insert_hash($dbh, "software_running_log", $field_values);
             &MYLOG($0, "insert_hash", "swrun_log|$fields_values", "insert failed") if !defined $st;
         }

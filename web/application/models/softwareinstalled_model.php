@@ -4,7 +4,7 @@ class Softwareinstalled_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        $this->tname = 'software_installed';    // table name
+        $this->tname = 'software_installed_log';    // table name
     }
 
     public function get_softwareinstalled($host_id) {

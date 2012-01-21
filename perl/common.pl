@@ -1,4 +1,5 @@
 require "setting.pl";
+require "oids.pl";
 
 use DBI;
 use DBD::mysql;

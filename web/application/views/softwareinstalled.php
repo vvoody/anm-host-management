@@ -9,8 +9,7 @@ echo anchor("softwarerunning/showall/$host_id", 'Runnning Software');
 echo "</div>";
 ?>
 
-
-
+Type: unknown(1), operatingSystem(2), deviceDriver(3), application(4)
 
 <table border="0" width="100%" class="norm" cellpadding="0" cellspacing="0">
 <tr>
