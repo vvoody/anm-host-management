@@ -22,9 +22,11 @@ class Storage extends CI_Controller {
         $this->load->view('storage', $data);
     }
 
-    public function graph($type="daily", $storage_id) {
-        $data['title'] = "$type graph of storage $storage_id";
-        $data['storage_id'] = $storage_id;
+    public function graph($period="daily", $storage_id) {
+        $data['title'] = "$period graph of storage $storage_id";
+        $data['component'] = 'storage';
+        $data['period'] = $period;
+        $data['id_or_name'] = $storage_id;
         $this->load->view('graph', $data);
     }
 

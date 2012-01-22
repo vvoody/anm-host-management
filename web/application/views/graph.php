@@ -52,7 +52,7 @@ $(function () {
         
     // fetch one series, adding to what we got
     
-    var dataurl = "<?php echo site_url("ajax/json/storage/daily/$storage_id");?>";
+    var dataurl = '<?php echo site_url("ajax/json/$component/$period/$id_or_name");?>';
 
     // then fetch the data with jQuery
     function onDataReceived(series) {
