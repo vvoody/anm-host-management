@@ -18,7 +18,6 @@ Type: unknown(1), operatingSystem(2), deviceDriver(3), application(4)
 <th>Type</th>
 <th>Host ID</th>
 <th>Last Update</th>
-<th>Graph</th>
 </tr>
 
 <?php
@@ -35,7 +34,6 @@ foreach ($softwareinstalled as $row) {
     echo "<td>$type</td>";
     echo "<td>$hid</td>";
     echo "<td>$last_update</td>";
-    echo "<td>" . anchor("softwareinstalled/graph/daily/$id", 'Daily') . "&bull;" . anchor("softwareinstalled/graph/weekly/$id", 'Weekly') . "&bull;" . anchor("softwareinstalled/graph/monthly/$id", 'Monthly') . "</td>";
     echo "</tr>";
 }
 

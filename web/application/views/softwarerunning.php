@@ -34,7 +34,7 @@ foreach ($softwarerunning as $row) {
     echo "<td>$type</td>";
     echo "<td>$status</td>";
     echo "<td>$hid</td>";
-    echo "<td>" . anchor("softwarerunning/graph/daily/$id", 'Daily') . "&bull;" . anchor("softwarerunning/graph/weekly/$id", 'Weekly') . "&bull;" . anchor("softwarerunning/graph/monthly/$id", 'Monthly') . "</td>";
+    echo "<td>" . anchor("softwarerunning/graph/daily/$name", 'Daily') . "&bull;" . anchor("softwarerunning/graph/weekly/$name", 'Weekly') . "&bull;" . anchor("softwarerunning/graph/monthly/$name", 'Monthly') . "</td>";
     echo "</tr>";
 }
 
