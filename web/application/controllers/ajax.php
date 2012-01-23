@@ -52,7 +52,7 @@ class Ajax extends CI_Controller {
         if ($period == "daily")
             $select = "$col, UNIX_TIMESTAMP(stamp) stamp";
         else
-            $select = "sum($col) $col, UNIX_TIMESTAMP(DATE(stamp)) stamp";
+            $select = "AVG($col) $col, UNIX_TIMESTAMP(DATE(stamp)) stamp";
         $date_range = $this->get_date_range($period);
         $this->db->select($select);
         $where = "$cmpt_col = $cmpt_id and (stamp >= DATE '" . $date_range['dateStart'] . "' and stamp < DATE '" . $date_range['dateEnd'] . "')";
