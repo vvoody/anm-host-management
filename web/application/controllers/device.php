@@ -24,8 +24,13 @@ class Device extends CI_Controller {
         $this->load->view('device', $data);
     }
 
-    public function graph($type="daily", $device_id) {
-        ;
+    public function graph($period="daily", $device_id) {
+        $data['title'] = "$period graph of storage $device_id";
+        $data['component'] = 'device';
+        $data['graphs'] = array('num_errors');
+        $data['period'] = $period;
+        $data['id_or_name'] = $device_id;
+        $this->load->view('graph', $data);
     }
 
 }

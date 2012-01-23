@@ -77,7 +77,7 @@ class Ajax extends CI_Controller {
             $q = $this->getdb('storage_log', $col, 'storage_id', $cmpt_id, $period);
             break;
         case "device":
-            echo "device";
+            $q = $this->getdb('devices_log', $col, 'device_id', $cmpt_id, $period);
             break;
         case "softwarerunning":
             echo "softwarerunning";
