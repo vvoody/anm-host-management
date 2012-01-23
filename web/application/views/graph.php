@@ -47,7 +47,7 @@ $(function () {
     var options = {
         lines: { show: true },
         points: { show: true },
-        xaxis: { mode : "time", timeformat: "%b %d" } //tickDecimals: 0, tickSize: 1, mode: "time" }
+        xaxis: { mode : "time", timeformat: <?php echo $period == 'daily' ? 'null' : '"%b %d"';?> }
     };
     var data = [];
 

@@ -19,7 +19,7 @@ class Ajax extends CI_Controller {
     private function get_date_range($period) {
         date_default_timezone_set('Europe/Stockholm');
         // mysql timestamp format: '2012-01-22 11:22:33'
-        // [$dateStart, $dateEnd]
+        // [$dateStart, $dateEnd)
         $secs_oneday = 86400;
         $days_oneweek = 7;
         $now = time();
@@ -28,16 +28,16 @@ class Ajax extends CI_Controller {
         switch ($period) {
         case 'daily':
             $dateStart = date('Y-m-d', $now);
-            $dateEnd = $dateStart;
+            $dateEnd = date('Y-m-d', $now + $secs_oneday);
             break;
         case 'weekly':
             $dateStart = date('Y-m-d', $now - $secs_oneday * $day_of_week);
-            $dateEnd = date('Y-m-d', $now + $secs_oneday * ($days_oneweek - 1 - $day_of_week));
+            $dateEnd = date('Y-m-d', $now + $secs_oneday * ($days_oneweek - $day_of_week));
             break;
         case 'monthly':
             // via http://www.justin-cook.com/wp/2009/04/18/get-the-first-last-day-of-the-month-with-php/
             $dateStart = date("Y-m-d", strtotime(date('m').'/01/'.date('Y').' 00:00:00'));
-            $dateEnd = date("Y-m-d", strtotime('-1 second',strtotime('+1 month',strtotime(date('m').'/01/'.date('Y').' 00:00:00'))));
+            $dateEnd = date("Y-m-d", strtotime('-1 second',strtotime('+1 month',strtotime(date('m').'/01/'.date('Y').' 00:00:00'))) + $secs_oneday);
             break;
         default:
             return array();
@@ -49,14 +49,16 @@ class Ajax extends CI_Controller {
 
     // select id, sum(used_capacity), UNIX_TIMESTAMP(DATE(stamp)) from storage_log where storage_id = 81 group by DATE(stamp);
     private function getdb($tabname, $col, $cmpt_col, $cmpt_id, $period) {
-        $this->db->select("sum($col) $col, UNIX_TIMESTAMP(DATE(stamp)) stamp");
-        $date_range = $this->get_date_range($period);
-        if ($period == 'daily')
-            $where = "$cmpt_col = $cmpt_id and stamp = DATE '" . $date_range['dateStart'] . "'";
+        if ($period == "daily")
+            $select = "$col, UNIX_TIMESTAMP(stamp) stamp";
         else
-            $where = "$cmpt_col = $cmpt_id and (stamp >= DATE '" . $date_range['dateStart'] . "' and stamp <= DATE '" . $date_range['dateEnd'] . "')";
+            $select = "sum($col) $col, UNIX_TIMESTAMP(DATE(stamp)) stamp";
+        $date_range = $this->get_date_range($period);
+        $this->db->select($select);
+        $where = "$cmpt_col = $cmpt_id and (stamp >= DATE '" . $date_range['dateStart'] . "' and stamp < DATE '" . $date_range['dateEnd'] . "')";
         $this->db->where($where);
-        $this->db->group_by('DATE(stamp)');
+        if ($period == "weekly" || $period == "monthly")
+            $this->db->group_by('DATE(stamp)');
         $query = $this->db->get($tabname);
         return $query->result();
     }
