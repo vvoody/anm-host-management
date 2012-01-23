@@ -47,20 +47,22 @@ class Ajax extends CI_Controller {
     }
 
 
-    private function getdb($tabname, $col, $cmpt_id, $period) {
-        $this->db->select('used_capacity, UNIX_TIMESTAMP(stamp) stamp');
+    // select id, sum(used_capacity), UNIX_TIMESTAMP(DATE(stamp)) from storage_log where storage_id = 81 group by DATE(stamp);
+    private function getdb($tabname, $col, $cmpt_col, $cmpt_id, $period) {
+        $this->db->select("sum($col) $col, UNIX_TIMESTAMP(DATE(stamp)) stamp");
         $date_range = $this->get_date_range($period);
         if ($period == 'daily')
-            $where = "$col = $cmpt_id and stamp = DATE '" . $date_range['dateStart'] . "'";
+            $where = "$cmpt_col = $cmpt_id and stamp = DATE '" . $date_range['dateStart'] . "'";
         else
-            $where = "$col = $cmpt_id and (stamp >= DATE '" . $date_range['dateStart'] . "' and stamp <= DATE '" . $date_range['dateEnd'] . "')";
+            $where = "$cmpt_col = $cmpt_id and (stamp >= DATE '" . $date_range['dateStart'] . "' and stamp <= DATE '" . $date_range['dateEnd'] . "')";
         $this->db->where($where);
+        $this->db->group_by('DATE(stamp)');
         $query = $this->db->get($tabname);
         return $query->result();
     }
 
-    // ajax/json/storage/daily/81
-    public function json($cmpt, $period, $cmpt_id) {
+    // ajax/json/storage/used_capacity/daily/81
+    public function json($cmpt, $col, $period, $cmpt_id) {
         // $arr = array(
         //     "label" => "storage $cmpt_id",
         //     "data" => array(array(1999, 4.4), array(2000, 3.7), array(2001, 0.8), array(2002, 1.6), array(2003, 2.5))
@@ -70,7 +72,7 @@ class Ajax extends CI_Controller {
 
         switch ($cmpt) {
         case "storage":
-            $q = $this->getdb('storage_log', 'storage_id', $cmpt_id, $period);
+            $q = $this->getdb('storage_log', $col, 'storage_id', $cmpt_id, $period);
             break;
         case "device":
             echo "device";
@@ -84,11 +86,12 @@ class Ajax extends CI_Controller {
 
         $meta = array();
         foreach ($q as $r) {
-            array_push($meta, array((int)$r->stamp*1000, (int)$r->used_capacity));
+            array_push($meta, array((int)$r->stamp*1000, $r->$col ? (int)$r->$col : $r->$col));
+            // NULL should not be shown as 0.
         }
 
         $arr = array(
-            "label" => "$cmpt $cmpt_id",
+            "label" => $col,
             "data" => $meta);
 
         header("Content-Type: application/json");

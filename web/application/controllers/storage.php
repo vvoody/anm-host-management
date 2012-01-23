@@ -25,6 +25,7 @@ class Storage extends CI_Controller {
     public function graph($period="daily", $storage_id) {
         $data['title'] = "$period graph of storage $storage_id";
         $data['component'] = 'storage';
+        $data['graphs'] = array('used_capacity', 'allocation_failures');
         $data['period'] = $period;
         $data['id_or_name'] = $storage_id;
         $this->load->view('graph', $data);
