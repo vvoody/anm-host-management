@@ -116,6 +116,22 @@ CREATE TABLE IF NOT EXISTS `software_installed` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `software_installed_log`
+--
+
+CREATE TABLE IF NOT EXISTS `software_installed_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL COMMENT 'hrSWInstalledName',
+  `type` int(11) DEFAULT NULL COMMENT 'hrSWInstalledType - unknown(1), operatingSystem(2), deviceDriver(3), application(4)',
+  `host_id` int(11) NOT NULL COMMENT 'hosts.id',
+  `last_update` datetime DEFAULT NULL COMMENT 'hrSWInstalledDate',
+  PRIMARY KEY (`id`),
+  KEY `host_id` (`host_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `software_running`
 --
 
@@ -144,6 +160,8 @@ CREATE TABLE IF NOT EXISTS `software_running_log` (
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `name` varchar(50) NOT NULL,
   `host_id` int(11) NOT NULL,
+  `type` int(11) DEFAULT NULL COMMENT 'hrSWRunType - unknown(1), operatingSystem(2), deviceDriver(3), application(4)',
+  `status` int(11) DEFAULT NULL COMMENT 'hrSWRunStatus - running(1), runnable(2), notRunnable(3),  invalid(4)  ',
   PRIMARY KEY (`id`),
   KEY `software_running_id` (`software_running_id`),
   KEY `stamp` (`stamp`),

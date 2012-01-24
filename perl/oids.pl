@@ -18,3 +18,17 @@ $hrSWInstalledIndex          = "1.3.6.1.2.1.25.6.3.1.1";
 $hrSWInstalledName           = "1.3.6.1.2.1.25.6.3.1.2";
 $hrSWInstalledType           = "1.3.6.1.2.1.25.6.3.1.4";
 $hrSWInstalledDate           = "1.3.6.1.2.1.25.6.3.1.5";
+
+$hrSWOSIndex          = "1.3.6.1.2.1.25.4.1.0";
+$hrSWRunTable         = "1.3.6.1.2.1.25.4.2";
+$hrSWRunEntry         = "1.3.6.1.2.1.25.4.2.1";
+$hrSWRunIndex         = "1.3.6.1.2.1.25.4.2.1.1";    # pid
+$hrSWRunName          = "1.3.6.1.2.1.25.4.2.1.2";
+$hrSWRunType          = "1.3.6.1.2.1.25.4.2.1.6";
+$hrSWRunStatus        = "1.3.6.1.2.1.25.4.2.1.7";
+
+$hrSWRunPerf          = "1.3.6.1.2.1.25.5";
+$hrSWRunPerfTable     = "1.3.6.1.2.1.25.5.1";
+$hrSWRunPerfEntry     = "1.3.6.1.2.1.25.5.1.1";
+$hrSWRunPerfCPU       = "1.3.6.1.2.1.25.5.1.1.1";
+$hrSWRunPerfMem       = "1.3.6.1.2.1.25.5.1.1.2";
