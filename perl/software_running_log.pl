@@ -39,9 +39,16 @@ foreach $host (@$hosts_ref) {
     &MYLOG($0, "connect_snmp", "$ip", $err_snmp) if $err_snmp;
     next if !defined $snmp_sess;
 
-    # my ($swrun_ref, $err_swrun) = get_swrun($host_id);
-    # &MYLOG($0, "get_swrun", "", $err_swrun) if $err_swrun;
-    # next if !defined $swrun_ref;
+    my ($swrun_ref, $err_swrun) = get_swrun($host_id);
+    &MYLOG($0, "get_swrun", "", $err_swrun) if $err_swrun;
+    next if !defined $swrun_ref;
+
+    my %swrun;
+    foreach $r (@$swrun_ref) {
+        my @l = @$r;
+        my ($swrun_id, $swrun_name) = @l;
+        $swrun->{$swrun_name} = $swrun_id;
+    }
 
     my ($hash_ref, $err_idxs) = snmp_get_cols($snmp_sess, [$hrSWRunIndex]);
     &MYLOG($0, "snmp_get_cols", "$hrSWRunIndex", $err_idxs) if $err_idxs;
@@ -56,7 +63,6 @@ foreach $host (@$hosts_ref) {
     &MYLOG($0, "snmp_get_cols", "swrunname, swruncpu, swrunmem", $err_cols) if $err_cols;
     next if !defined $hash_ref;
 
-    @rows;
     foreach $idx (@swrun_idxs) {
         my ($cpu_used, $mem_allocated, $name, $type, $status) = ($hash_ref->{$hrSWRunPerfCPU . ".$idx"},
                                                                  $hash_ref->{$hrSWRunPerfMem . ".$idx"},
@@ -64,7 +70,8 @@ foreach $host (@$hosts_ref) {
                                                                  $hash_ref->{$hrSWRunType . ".$idx"},
                                                                  $hash_ref->{$hrSWRunStatus . ".$idx"});
         if ($cpu_used && $mem_allocated && $name) {
-            $field_values =  {"cpu_used" => $cpu_used,
+            $field_values =  {"software_running_id" => $swrun->{$name} || 0,
+                              "cpu_used" => $cpu_used,
                               "mem_allocated" => $mem_allocated,
                               "name" => $name,
                               "host_id" => $host_id,
@@ -75,7 +82,6 @@ foreach $host (@$hosts_ref) {
         }
     }
 
-#    print Dumper(@rows);
     print "\n============================\n";
 
     $snmp_sess->close();

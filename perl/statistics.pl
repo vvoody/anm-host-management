@@ -179,6 +179,48 @@ sub st_storage {
     $snmp_sess->close();
 }
 
+
+sub st_softwarerunning {
+    my $host = $_[0];
+    my ($host_id, $ip, $community) = @$host;
+    $host_id = int($host_id);
+    print "Now on host $ip...\n";
+    my ($snmp_sess, $err_snmp) = connect_snmp($ip);
+    (&MYLOG($0, "connect_snmp", "$ip", $err_snmp) && return undef) if $err_snmp;
+
+    my ($hash_ref, $err_idxs) = snmp_get_cols($snmp_sess, [$hrSWRunName]);
+    &MYLOG($0, "snmp_get_cols", "hrSWRunName", $err_idxs) if $err_idxs;
+    return undef if !defined $hash_ref;
+    my @new_idxs = values %$hash_ref;
+
+    my ($l_ref, $err) = select_table_cols($dbh, "software_running", ["name"], $host_id);
+    &MYLOG($0, "select_table_cols", "name", $err) if $err;
+    return undef if !defined $l_ref;
+
+    # only insert software running not exists in table 'software_running'
+    my @new_names = values %$hash_ref;
+    my @old_names;
+    foreach $r (@$l_ref) {
+        my @l = @$r;
+        push @old_names, $l[0];   # name
+    }
+
+    my $s_old = Set::Scalar->new(@old_names);
+    my $s_new = Set::Scalar->new(@new_names);
+    my $s_ins = $s_new - $s_old;
+
+    print "New software running found: $s_ins\n";
+    while (defined(my $e = $s_ins->each)) {
+        $field_values = {'name' => $e,
+                         'host_id' => $host_id,};
+        my $st = insert_hash($dbh, "software_running", $field_values);
+        &MYLOG($0, "insert_hash", "software_running|$field_values", "insert failed") if !defined $st;
+    }
+
+    $snmp_sess->close();
+}
+
+
 my ($dbh, $err_db) = connect_db();
 die $err_db if $err_db;
 my ($hosts_ref, $err_hosts) = get_hosts($dbh);
@@ -187,4 +229,5 @@ die $err_hosts if $err_hosts;
 foreach $host (@$hosts_ref) {
     st_devices($host);
     st_storage($host);
+    st_softwarerunning($host);
 }
