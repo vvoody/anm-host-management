@@ -57,8 +57,11 @@ class Host extends CI_Controller {
         redirect("/host/show/all", "refresh");
     }
 
-    public function graph() {
-        ;
+    public function graph($period="daily") {
+        $data['title'] = "$period graph of Number of loaded processes for all hosts";
+        $data['period'] = $period;
+        $data['hosts'] = $this->Host_model->get_hosts();
+        $this->load->view('graph_host', $data);
     }
 
 }

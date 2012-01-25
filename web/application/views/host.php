@@ -38,6 +38,10 @@ foreach ($hosts as $row) {
 
 </table>
 
-<?php 
+<br />
+<?php
+
+echo "Graphs: " . anchor('host/graph/daily', 'daily') . ', ' . anchor('host/graph/weekly', 'weekly') . ', ' . anchor('host/graph/monthly', 'monthly') . '.';
+
 require_once 'footer.php';
 ?>

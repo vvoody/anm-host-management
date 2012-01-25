@@ -63,8 +63,8 @@ class Ajax extends CI_Controller {
         return $query->result();
     }
 
-    // ajax/json/storage/used_capacity/daily/81
-    public function json($cmpt, $col, $period, $cmpt_id) {
+    // ajax/json/storage/used_capacity/daily/81/$label
+    public function json($cmpt, $col, $period, $cmpt_id, $label=FALSE) {
         // $arr = array(
         //     "label" => "storage $cmpt_id",
         //     "data" => array(array(1999, 4.4), array(2000, 3.7), array(2001, 0.8), array(2002, 1.6), array(2003, 2.5))
@@ -82,9 +82,12 @@ class Ajax extends CI_Controller {
         case "softwarerunning":
             $q = $this->getdb('software_running_log', $col, 'software_running_id', $cmpt_id, $period);
             break;
+        case "host":
+            $q = $this->getdb('hosts_log', $col, 'host_id', $cmpt_id, $period);
+            break;
+        default:
+            $q = array();
         }
-
-//        var_dump($q);
 
         $meta = array();
         foreach ($q as $r) {
@@ -93,7 +96,7 @@ class Ajax extends CI_Controller {
         }
 
         $arr = array(
-            "label" => $col,
+            "label" => $label ? $label : $col,
             "data" => $meta);
 
         header("Content-Type: application/json");
