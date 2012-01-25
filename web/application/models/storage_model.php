@@ -14,4 +14,13 @@ class Storage_model extends CI_Model {
         return $query->result();
     }
 
+    public function get_cmpt_host($cmpt_id) {
+        $this->db->select('storage.descr, hosts.ip_name');
+        $this->db->from($this->tname);
+        $this->db->join('hosts', 'storage.host_id = hosts.id');
+        $this->db->where('storage.id', $cmpt_id);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 }

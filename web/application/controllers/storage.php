@@ -23,7 +23,12 @@ class Storage extends CI_Controller {
     }
 
     public function graph($period="daily", $storage_id) {
-        $data['title'] = "$period graph of storage $storage_id";
+        $result = $this->Storage_model->get_cmpt_host($storage_id);
+        if ($result) {
+            $cmpt_descr = $result[0]->descr;
+            $cmpt_host = $result[0]->ip_name;
+        }
+        $data['title'] = "$period graph of storage '$cmpt_descr' of $cmpt_host";
         $data['component'] = 'storage';
         $data['graphs'] = array('used_capacity', 'allocation_failures');
         $data['period'] = $period;

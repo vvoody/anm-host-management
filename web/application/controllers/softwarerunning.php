@@ -25,7 +25,12 @@ class Softwarerunning extends CI_Controller {
     }
 
     public function graph($period="daily", $swrun_id) {
-        $data['title'] = "$period graph of software running $swrun_id";
+        $result = $this->Softwarerunning_model->get_cmpt_host($swrun_id);
+        if ($result) {
+            $cmpt_name = $result[0]->name;
+            $cmpt_host = $result[0]->ip_name;
+        }
+        $data['title'] = "$period graph of running software '$cmpt_name' of $cmpt_host";
         $data['component'] = 'softwarerunning';
         $data['graphs'] = array('cpu_used', 'mem_allocated');
         $data['period'] = $period;

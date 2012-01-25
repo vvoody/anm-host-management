@@ -25,7 +25,12 @@ class Device extends CI_Controller {
     }
 
     public function graph($period="daily", $device_id) {
-        $data['title'] = "$period graph of storage $device_id";
+        $result = $this->Device_model->get_cmpt_host($device_id);
+        if ($result) {
+            $cmpt_descr = $result[0]->descr;
+            $cmpt_host = $result[0]->ip_name;
+        }
+        $data['title'] = "$period graph of device '$cmpt_descr' of $cmpt_host";
         $data['component'] = 'device';
         $data['graphs'] = array('num_errors');
         $data['period'] = $period;

@@ -14,4 +14,13 @@ class Softwarerunning_model extends CI_Model {
         return $query->result();
     }
 
+    public function get_cmpt_host($cmpt_id) {
+        $this->db->select('software_running.name, hosts.ip_name');
+        $this->db->from('software_running');
+        $this->db->join('hosts', 'software_running.host_id = hosts.id');
+        $this->db->where('software_running.id', $cmpt_id);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 }
