@@ -24,8 +24,13 @@ class Softwarerunning extends CI_Controller {
         $this->load->view('softwarerunning', $data);
     }
 
-    public function graph($type="daily", $softwarerunning_name) {
-        ;
+    public function graph($period="daily", $swrun_id) {
+        $data['title'] = "$period graph of software running $swrun_id";
+        $data['component'] = 'softwarerunning';
+        $data['graphs'] = array('cpu_used', 'mem_allocated');
+        $data['period'] = $period;
+        $data['id_or_name'] = $swrun_id;
+        $this->load->view('graph', $data);
     }
 
 }
