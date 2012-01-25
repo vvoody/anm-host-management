@@ -10,7 +10,7 @@ echo "</div>";
 ?>
 
 
-
+Status: unknown(1), running(2), warning(3), testing(4), down(5)
 
 <table border="0" width="100%" class="norm" cellpadding="0" cellspacing="0">
 <tr>
