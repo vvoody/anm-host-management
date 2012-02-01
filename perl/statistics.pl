@@ -62,7 +62,8 @@ sub st_devices {
         $field_values = {"component" => "device",
                          "cmpt_idx" => $e,
                          "event" => "found",
-                         "host_id" => $host_id};
+                         "host_id" => $host_id,
+                         "solved" => 1};
         my $st = insert_hash($dbh, "statistics", $field_values);
         &MYLOG($0, "insert_hash", "statistics|$field_values", "insert failed") if !defined $st;
     }
@@ -153,7 +154,8 @@ sub st_storage {
         $field_values = {"component" => "storage",
                          "cmpt_idx" => $e,
                          "event" => "found",
-                         "host_id" => $host_id};
+                         "host_id" => $host_id,
+                         "solved" => 1};
         my $st = insert_hash($dbh, "statistics", $field_values);
         &MYLOG($0, "insert_hash", "statistics|$field_values", "insert failed") if !defined $st;
     }
