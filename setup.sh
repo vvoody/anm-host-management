@@ -2,6 +2,9 @@
 
 # setup script for ANM Host Management System
 
+# reduce less user inputing DBNAME, DBUSER, DBPASSWD, DEPLOY_PATH
+LAST_SAVED=".last_saved"
+
 SQLFILE="doc/db.sql"
 PERL_SCRIPTS="perl/"
 WEB_SCRIPTS="web/"
@@ -27,13 +30,21 @@ deploy_files() {
 }
 
 get_db_userpasswd() {
-    read -e -p "Database name: " DBNAME
-    read -e -p "Database username: " DBUSER
-    read -e -s -p "Database password: " DBPASSWD
+    if [ -f $LAST_SAVED ]; then
+        source $LAST_SAVED
+    else
+        read -e -p "Database name: " DBNAME
+        read -e -p "Database username: " DBUSER
+        read -e -s -p "Database password: " DBPASSWD
+    fi
 }
 
 get_deploy_path() {
-   read -e -p "Full path where you want to deploy: " DEPLOY_PATH
+    if [ -f $LAST_SAVED ]; then
+        source $LAST_SAVED
+    else
+        read -e -p "Full path where you want to deploy: " DEPLOY_PATH
+    fi
 }
 
 get_all_info() {
@@ -72,7 +83,7 @@ case "$1" in
         clean_database
         ;;
     install)
-        echo "Initialize database..."
+        echo "Starting install..."
         get_all_info
         deploy_database
         db_create_root
@@ -88,3 +99,11 @@ case "$1" in
         exit 1
         ;;
 esac
+
+(cat <<EOF
+DBNAME=$DBNAME
+DBUSER=$DBUSER
+DBPASSWD=$DBPASSWD
+DEPLOY_PATH=$DEPLOY_PATH
+EOF
+) > $LAST_SAVED
