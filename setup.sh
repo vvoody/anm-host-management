@@ -29,22 +29,32 @@ deploy_files() {
     chmod -R o-rwx $DEPLOY_PATH/$PERL_SCRIPTS
 }
 
-get_db_userpasswd() {
+import_last_saved() {
     if [ -f $LAST_SAVED ]; then
         source $LAST_SAVED
-    else
-        read -e -p "Database name: " DBNAME
-        read -e -p "Database username: " DBUSER
-        read -e -s -p "Database password: " DBPASSWD
+        echo "DBNAME=$DBNAME, DBUSER=$DBUSER, DBPASSWD=$DBPASSWD, DEPLOY_PATH=$DEPLOY_PATH"
+        if [ -n "${DBNAME+x}" ] &&
+            [ -n "${DBUSER+x}" ] &&
+            [ -n "${DBPASSWD+x}" ] &&
+            [ -n "${DEPLOY_PATH+x}" ] ; then
+            echo "INFO: imported configs from $LAST_SAVED"
+            return 0
+        else
+            echo "WARNING: $LAST_SAVED is not set correctly, removed."
+            rm -f $LAST_SAVED
+        fi
     fi
+    return 1
+}
+
+get_db_userpasswd() {
+    read -e -p "Database name: " DBNAME
+    read -e -p "Database username: " DBUSER
+    read -e -s -p "Database password: " DBPASSWD
 }
 
 get_deploy_path() {
-    if [ -f $LAST_SAVED ]; then
-        source $LAST_SAVED
-    else
-        read -e -p "Full path where you want to deploy: " DEPLOY_PATH
-    fi
+    read -e -p "Full path where you want to deploy: " DEPLOY_PATH
 }
 
 get_all_info() {
@@ -74,17 +84,17 @@ setup_perl() {
         -i $DEPLOY_PATH/$PERL_CONF
 }
 
-set -eu
+set -e
 
 case "$1" in
     clean)
         echo "Doing cleanup jobs: drop tables,"
-        get_db_userpasswd
+        import_last_saved || get_db_userpasswd
         clean_database
         ;;
     install)
         echo "Starting install..."
-        get_all_info
+        import_last_saved || get_all_info
         deploy_database
         db_create_root
         deploy_files
@@ -93,8 +103,13 @@ case "$1" in
         echo -e "\nDone."
         echo "Please use '$ADMIN' with password '$ADMINPW' to login."
         ;;
+    test)
+        echo "Testing..."
+        import_last_saved || get_all_info
+#        exit 0
+        ;;
     *)
-        echo "Unknown instruction '$1'"
+        echo "ERROR: Unknown instruction '$1'"
         echo "Usage: $0 install|clean"
         exit 1
         ;;
