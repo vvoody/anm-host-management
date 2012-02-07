@@ -16,19 +16,21 @@ class Ajax extends CI_Controller {
     }
 
 
-    private function get_date_range($period) {
+    private function get_date_range($period, $basetime=FALSE) {
         date_default_timezone_set('Europe/Stockholm');
         // mysql timestamp format: '2012-01-22 11:22:33'
         // [$dateStart, $dateEnd)
         $secs_oneday = 86400;
         $days_oneweek = 7;
-        $now = time();
+        $now = $basetime ? $basetime : time();
         $day_of_week = date('w', $now);
         $day_of_month = date('d', $now);
+        $month = date('m', $now);
+        $year = date('Y', $now);
         switch ($period) {
         case 'daily':
             $dateStart = date('Y-m-d', $now);
-            $dateEnd = date('Y-m-d', $now + $secs_oneday);
+            $dateEnd = date('Y-m-d', $now + $secs_oneday);  // next day
             break;
         case 'weekly':
             $dateStart = date('Y-m-d', $now - $secs_oneday * $day_of_week);
@@ -36,8 +38,10 @@ class Ajax extends CI_Controller {
             break;
         case 'monthly':
             // via http://www.justin-cook.com/wp/2009/04/18/get-the-first-last-day-of-the-month-with-php/
-            $dateStart = date("Y-m-d", strtotime(date('m').'/01/'.date('Y').' 00:00:00'));
-            $dateEnd = date("Y-m-d", strtotime('-1 second',strtotime('+1 month',strtotime(date('m').'/01/'.date('Y').' 00:00:00'))) + $secs_oneday);
+            $month_start = strtotime($month.'/01/'.$year.' 00:00:00');  // '02/01/2012 00:00:00'
+            $month_end = strtotime('+1 month',$month_start);
+            $dateStart = date("Y-m-d", $month_start);
+            $dateEnd = date("Y-m-d", $month_end);
             break;
         default:
             return array();
@@ -48,12 +52,12 @@ class Ajax extends CI_Controller {
 
 
     // select id, sum(used_capacity), UNIX_TIMESTAMP(DATE(stamp)) from storage_log where storage_id = 81 group by DATE(stamp);
-    private function getdb($tabname, $col, $cmpt_col, $cmpt_id, $period) {
+    private function getdb($tabname, $col, $cmpt_col, $cmpt_id, $period, $basetime=FALSE) {
         if ($period == "daily")
             $select = "$col, UNIX_TIMESTAMP(stamp) stamp";
         else
             $select = "AVG($col) $col, UNIX_TIMESTAMP(DATE(stamp)) stamp";
-        $date_range = $this->get_date_range($period);
+        $date_range = $this->get_date_range($period, $basetime);
         $this->db->select($select);
         $where = "$cmpt_col = $cmpt_id and (stamp >= DATE '" . $date_range['dateStart'] . "' and stamp < DATE '" . $date_range['dateEnd'] . "')";
         $this->db->where($where);
@@ -64,7 +68,7 @@ class Ajax extends CI_Controller {
     }
 
     // ajax/json/storage/used_capacity/daily/81/$label
-    public function json($cmpt, $col, $period, $cmpt_id, $label=FALSE) {
+    public function json($cmpt, $col, $period, $cmpt_id, $label=FALSE, $basetime=FALSE) {
         // $arr = array(
         //     "label" => "storage $cmpt_id",
         //     "data" => array(array(1999, 4.4), array(2000, 3.7), array(2001, 0.8), array(2002, 1.6), array(2003, 2.5))
@@ -74,16 +78,16 @@ class Ajax extends CI_Controller {
 
         switch ($cmpt) {
         case "storage":
-            $q = $this->getdb('storage_log', $col, 'storage_id', $cmpt_id, $period);
+            $q = $this->getdb('storage_log', $col, 'storage_id', $cmpt_id, $period, $basetime);
             break;
         case "device":
-            $q = $this->getdb('devices_log', $col, 'device_id', $cmpt_id, $period);
+            $q = $this->getdb('devices_log', $col, 'device_id', $cmpt_id, $period, $basetime);
             break;
         case "softwarerunning":
-            $q = $this->getdb('software_running_log', $col, 'software_running_id', $cmpt_id, $period);
+            $q = $this->getdb('software_running_log', $col, 'software_running_id', $cmpt_id, $period, $basetime);
             break;
         case "host":
-            $q = $this->getdb('hosts_log', $col, 'host_id', $cmpt_id, $period);
+            $q = $this->getdb('hosts_log', $col, 'host_id', $cmpt_id, $period, $basetime);
             break;
         default:
             $q = array();
