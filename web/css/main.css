@@ -156,3 +156,12 @@ td#td_critical {
 #url_underline {
     text-decoration: underline;
 }
+
+/* override .content h1 { float:right;} setting */
+#h1_title_no_right {
+    float: none;
+}
+
+#datepicker {
+    float: right;
+}

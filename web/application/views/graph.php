@@ -5,9 +5,11 @@
   <meta charset="utf-8" />
   <title>Host Management System <?php echo "- " . $title; ?></title>
   <link rel="stylesheet" href="<?php echo base_url('css/main.css');?>" />
+  <link rel="stylesheet" href="<?php echo base_url('css/jquery-ui-datepicker.css');?>" />
   <link rel='stylesheet' href="http://fonts.googleapis.com/css?family=Ubuntu+Condensed" />
   <script language="javascript" type="text/javascript" src="<?php echo base_url('js/jquery.js');?>"></script>
   <script language="javascript" type="text/javascript" src="<?php echo base_url('js/jquery.flot.js');?>"></script>
+  <script language="javascript" type="text/javascript" src="<?php echo base_url('js/jquery-ui-datepicker.js');?>"></script>
 </head>
 
 <body>
@@ -35,14 +37,22 @@
 
   <div class="content">
     <div class="container">
-      <h1><?php echo $title;?></h1>
+      <div id="datepicker"></div>
+      <h1 id="h1_title_no_right"><?php echo $title;?></h1><br />
       <?php
           foreach ($graphs as $g) {
               echo "<div id=\"placeholder_$g\" style=\"width:600px;height:300px;\"></div>\n";
           }
       ?>
 
+
 <script type="text/javascript">
+
+// Datepicker
+$('#datepicker').datepicker({
+    inline: true
+});
+
 $(function () {
     var options = {
         lines: { show: true },
