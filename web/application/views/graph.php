@@ -92,10 +92,13 @@ function onDataReceived(series, placeholder) {
     data.pop();
 }
 
-function draw_graphs() {
+// cmpt_id can be id of storage, device or host.
+// var component, period are global.
+function draw_graphs(cmpt_id, label) {
     for (x in graphs) {
         var g = graphs[x];
-        var json_url = site_url + '/ajax/json/' + component + '/' + g + '/' + period + '/' + component_id + '/' + g;
+        var lb = typeof(label) != 'undefined' ? label : g;
+        var json_url = site_url + '/ajax/json/' + component + '/' + g + '/' + period + '/' + component_id + '/' + lb;
         if (basetime) {
             json_url += '/' + basetime;
         }
@@ -103,13 +106,12 @@ function draw_graphs() {
                 method: 'GET',
                 async: false,  // have to... otherwise unable to pass placeholder to success function
                 dataType: 'json',
-//                success: [function() {placeholder='placeholder_'+g;}, onDataReceived]
                 success: function(json) { onDataReceived(json, 'placeholder_' + g) }
                    });
         }
 }
 
-draw_graphs();
+draw_graphs(component_id);
 </script>
 
     </div>

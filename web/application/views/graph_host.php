@@ -5,9 +5,11 @@
   <meta charset="utf-8" />
   <title>Host Management System <?php echo "- " . $title; ?></title>
   <link rel="stylesheet" href="<?php echo base_url('css/main.css');?>" />
+  <link rel="stylesheet" href="<?php echo base_url('css/jquery-ui-datepicker.css');?>" />
   <link rel='stylesheet' href="http://fonts.googleapis.com/css?family=Ubuntu+Condensed" />
   <script language="javascript" type="text/javascript" src="<?php echo base_url('js/jquery.js');?>"></script>
   <script language="javascript" type="text/javascript" src="<?php echo base_url('js/jquery.flot.js');?>"></script>
+  <script language="javascript" type="text/javascript" src="<?php echo base_url('js/jquery-ui-datepicker.js');?>"></script>
 </head>
 
 <body>
@@ -35,41 +37,89 @@
 
   <div class="content">
     <div class="container">
-      <h1><?php echo $title;?></h1>
-       <div id="placeholder" style="width:600px;height:300px;"></div>
+      <div id="datepicker"></div>
+      <h1 id="h1_title_no_right"><?php echo $title;?></h1>
+      <?php
+          foreach ($graphs as $g) {
+              echo "<div id=\"placeholder_$g\" style=\"width:600px;height:300px;\"></div>\n";
+          }
+      ?>
 
 <script type="text/javascript">
-$(function () {
-    var options = {
-        lines: { show: true },
-        points: { show: true },
-        xaxis: { mode : "time", timeformat: <?php echo $period == 'daily' ? 'null' : '"%b %d"';?> }
-    };
-    var data = [];
+<?php
+// var graphs = ['num_loaded_processes'];
+echo "var graphs = [";
+foreach ($graphs as $g) {
+    echo "'$g', ";
+}
+echo "];\n";
+echo "var component = '$component';\n";
+echo "var site_url = '" . site_url() . "';\n";
+echo "var period = '$period';\n";
+?>
 
-    // var placeholder will be set by the function in ajax success.
-        
-    // then fetch the data with jQuery
-    function onDataReceived(series) {
-        // extract the first coordinate pair so you can see that
-        // data is now an ordinary Javascript object
-
-        // and plot all we got
-        data.push(series);
-
-        $.plot($('#placeholder'), data, options);
-    }
-
-    <?php
-        foreach ($hosts as $h) {
-            $hid = $h->id;
-            $label = $h->ip_name;
-            echo "var dataurl_$hid='" . site_url("ajax/json/host/num_loaded_processes/$period/$hid/$label") . "';\n";
-            echo "$.ajax({url: dataurl_$hid, method: 'GET', dataType: 'json', success: onDataReceived});\n";
-        }
-    ?>
-
+var basetime = null;
+// Datepicker
+$('#datepicker').datepicker({
+    inline: true,
+    changeMonth: true,
+    changeYear: true,
+    showWeek: true,
+    firstDay: 1,
+    onSelect: function(dateText, inst) { basetime = (parseInt(dateText) / 1000).toString(); draw_hosts_graphs();}
 });
+$('#datepicker').datepicker('option', 'dateFormat', '@'); // UNIX timestamp
+
+var options = {
+    lines: { show: true },
+    points: { show: true },
+    xaxis: { mode : "time", timeformat: <?php echo $period == 'daily' ? 'null' : '"%b %d"';?> }
+};
+var data = [];
+
+// var placeholder will be set by the function in ajax success.
+
+// then fetch the data with jQuery
+function onDataReceived(series, placeholder) {
+    // extract the first coordinate pair so you can see that
+    // data is now an ordinary Javascript object
+
+    // and plot all we got
+    data.push(series);
+    $.plot($('#' + placeholder), data, options);
+}
+
+// cmpt_id can be id of storage, device or host.
+// var component, period are global.
+function draw_graphs(cmpt_id, label) {
+    for (x in graphs) {
+        var g = graphs[x];
+        var lb = typeof(label) != 'undefined' ? label : g;
+        var json_url = site_url + '/ajax/json/' + component + '/' + g + '/' + period + '/' + cmpt_id + '/' + lb;
+        if (basetime) {
+            json_url += '/' + basetime;
+        }
+        $.ajax({url: json_url,
+                method: 'GET',
+                async: false,  // have to... otherwise unable to pass placeholder to success function
+                dataType: 'json',
+                success: function(json) { onDataReceived(json, 'placeholder_' + g) }
+               });
+        }
+}
+
+function draw_hosts_graphs() {
+data = [];
+<?php
+    foreach ($hosts as $h) {
+        $hid = $h->id;
+        $label = $h->ip_name;
+        echo "draw_graphs('$hid', '$label');\n";
+    }
+?>
+}
+
+draw_hosts_graphs();
 </script>
 
     </div>

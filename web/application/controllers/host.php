@@ -59,6 +59,8 @@ class Host extends CI_Controller {
 
     public function graph($period="daily") {
         $data['title'] = "$period graph of Number of loaded processes for all hosts";
+        $data['component'] = 'host';
+        $data['graphs'] = array('num_loaded_processes');
         $data['period'] = $period;
         $data['hosts'] = $this->Host_model->get_hosts();
         $this->load->view('graph_host', $data);
