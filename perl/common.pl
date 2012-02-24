@@ -4,7 +4,7 @@ require "oids.pl";
 use DBI;
 use DBD::mysql;
 use Net::SNMP;
-
+use Net::Ping;
 
 sub MYLOG {
     my ($script, $func, $params, $err_msg) = @_;
@@ -68,6 +68,9 @@ sub connect_snmp {
         -translate   => 0,
         -community   => $community,
         );
+    $p = Net::Ping->new();  # 5 seconds
+    $session = undef if ! $p->ping($host);
+    $p->close();
     return ($session, $error);
 }
 
