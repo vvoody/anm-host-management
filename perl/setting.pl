@@ -3,7 +3,7 @@ sub assert {
 }
 
 $DATABASE = "" or assert "DATABASE";
-$HOST     = "" or assert "HOST";
+$HOST     = "localhost" or assert "HOST";
 $DBUSER   = "" or assert "DBUSER";
 $DBPASSWD = "" or assert "DBPASSWD";
 

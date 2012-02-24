@@ -5,7 +5,7 @@
 LOGFILE="/tmp/anm-host-management.log"
 
 mylog() {
-    echo $1 | tee -a LOGFILE
+    echo $(date) " - $1" | tee -a LOGFILE
 }
 
 run_script() {
@@ -14,6 +14,8 @@ run_script() {
     echo "****************** $1 END ******************"
 }
 
+mylog "perl/cron.sh started."
+
 run_script hosts_log.pl
 run_script statistics.pl
 run_script devices_log.pl
@@ -21,3 +23,5 @@ run_script storage_log.pl
 run_script software_running_log.pl
 run_script software_installed_log.pl
 run_script alarms.pl
+
+mylog "perl/cron.sh ended."
