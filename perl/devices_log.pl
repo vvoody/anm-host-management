@@ -29,7 +29,7 @@ foreach $host (@$hosts_ref) {
     my ($host_id, $ip, $community) = @$host;
     $host_id = int($host_id);
     print "Now on host $ip...\n";
-    my ($snmp_sess, $err_snmp) = connect_snmp($ip);
+    my ($snmp_sess, $err_snmp) = connect_snmp($ip, $community);
     &MYLOG($0, "connect_snmp", "$ip", $err_snmp) if $err_snmp;
     next if !defined $snmp_sess;
 

@@ -5,7 +5,7 @@
 LOGFILE="/tmp/anm-host-management.log"
 
 mylog() {
-    echo $(date) " - $1" | tee -a LOGFILE
+    echo $(date) " - $1" | tee -a $LOGFILE
 }
 
 run_script() {

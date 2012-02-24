@@ -14,7 +14,7 @@ sub st_devices {
     my ($host_id, $ip, $community) = @$host;
     $host_id = int($host_id);
     print "Now on host $ip...\n";
-    my ($snmp_sess, $err_snmp) = connect_snmp($ip);
+    my ($snmp_sess, $err_snmp) = connect_snmp($ip, $community);
     (&MYLOG($0, "connect_snmp", "$ip", $err_snmp) && return undef) if $err_snmp;
 
     my ($hash_ref, $err_idxs) = snmp_get_cols($snmp_sess, [$hrDeviceIndex]);
@@ -103,7 +103,7 @@ sub st_storage {
     my ($host_id, $ip, $community) = @$host;
     $host_id = int($host_id);
     print "Now on host $ip...\n";
-    my ($snmp_sess, $err_snmp) = connect_snmp($ip);
+    my ($snmp_sess, $err_snmp) = connect_snmp($ip, $community);
     (&MYLOG($0, "connect_snmp", "$ip", $err_snmp) && return undef) if $err_snmp;
 
     my ($hash_ref, $err_idxs) = snmp_get_cols($snmp_sess, [$hrStorageIndex]);
@@ -187,7 +187,7 @@ sub st_softwarerunning {
     my ($host_id, $ip, $community) = @$host;
     $host_id = int($host_id);
     print "Now on host $ip...\n";
-    my ($snmp_sess, $err_snmp) = connect_snmp($ip);
+    my ($snmp_sess, $err_snmp) = connect_snmp($ip, $community);
     (&MYLOG($0, "connect_snmp", "$ip", $err_snmp) && return undef) if $err_snmp;
 
     my ($hash_ref, $err_idxs) = snmp_get_cols($snmp_sess, [$hrSWRunName]);
