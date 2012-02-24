@@ -4,8 +4,7 @@ class Host extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        if ($this->session->userdata('logged_in') == TRUE &&
-            $this->session->userdata('isAdmin') == TRUE) {
+        if ($this->session->userdata('logged_in') == TRUE) {
             $this->load->helper('form');
             $this->load->helper('url');
             $this->load->model('Host_model', '', TRUE);
@@ -34,6 +33,10 @@ class Host extends CI_Controller {
     }
 
     public function add() {
+        if ($this->session->userdata('isAdmin') != TRUE) {
+            echo "Admin ONLY can add host!";
+            throw new Exception();
+        }
         $ip = $this->input->post('ip');
         $community = $this->input->post('community');
         if ($ip && $community) {
@@ -51,6 +54,10 @@ class Host extends CI_Controller {
     }
 
     public function del($host_id) {
+        if ($this->session->userdata('isAdmin') != TRUE) {
+            echo "Admin ONLY can delete host!";
+            throw new Exception();
+        }
         if (isset($host_id)) {
             $this->Host_model->del_host($host_id);
         }

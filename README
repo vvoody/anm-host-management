@@ -1,0 +1,27 @@
+System online url- > http://194.47.155.140/~xiwa11/web/
+
+Since the system has been already running, if you want to start from scratch, then run
+
+    rm -rf /home/xiwa11/www/perl/ /home/xiwa11/www/web/
+    ./setup.sh clean
+
+after this, follow the instructions below:
+
+1. Checkout the source codes: wget --no-check-certificate https://github.com/vvoody/anm-host-management/zipball/master
+
+2. unzip master
+
+3. cd vvoody-anm-host-management-*
+
+4. ./setup.sh install
+Starting install...
+Full path where you want to deploy: /home/xiwa11/www/
+Database name: dbxiwa11
+Database username: xiwa11
+Database password: anmproj
+Done.
+Please use 'root' with password 'toor' to login.
+
+Then visit http://194.47.155.140/~xiwa11/web/
+
+Test monitorable server ip: 69.163.40.138

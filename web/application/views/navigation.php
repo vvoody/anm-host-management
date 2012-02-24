@@ -12,10 +12,11 @@ echo anchor('stats/', 'Statistics');
 
 echo "<span>&bull;</span>";
 
-if ($this->session->userdata('isAdmin') == TRUE) {
-    echo anchor('host/show/all', 'Hosts');
+echo anchor('host/show/all', 'Hosts');
     
-    echo "<span>&bull;</span>";
+echo "<span>&bull;</span>";
+
+if ($this->session->userdata('isAdmin') == TRUE) {
     
     echo anchor('user/show/all', 'Users');
     
