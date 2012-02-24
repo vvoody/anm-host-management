@@ -33,10 +33,10 @@ import_last_saved() {
     if [ -f $LAST_SAVED ]; then
         source $LAST_SAVED
         echo "DBNAME=$DBNAME, DBUSER=$DBUSER, DBPASSWD=$DBPASSWD, DEPLOY_PATH=$DEPLOY_PATH"
-        if [ -n "${DBNAME+x}" ] &&
-            [ -n "${DBUSER+x}" ] &&
-            [ -n "${DBPASSWD+x}" ] &&
-            [ -n "${DEPLOY_PATH+x}" ] ; then
+        if [ -n "$DBNAME" ] &&
+            [ -n "$DBUSER" ] &&
+            [ -n "$DBPASSWD" ] &&
+            [ -n "$DEPLOY_PATH" ] ; then
             echo "INFO: imported configs from $LAST_SAVED"
             return 0
         else
