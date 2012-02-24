@@ -40,7 +40,7 @@ class User extends CI_Controller {
                 'username' => $username,
                 'password' => crypt($password),
                 'email' => $email,
-                'accountype' => $usertype,
+                'account_type' => $usertype,
                 );
             $this->User_model->add_user($data);
             redirect("/user/show/all", 'refresh');
