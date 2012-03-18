@@ -102,6 +102,8 @@ case "$1" in
         setup_perl
         echo -e "\nDone."
         echo "Please use '$ADMIN' with password '$ADMINPW' to login."
+        echo "And add following line to your crontab(crontab -e):"
+        echo '*/5 * * * *' "${DEPLOY_PATH}/${PERL_SCRIPTS}/cron.sh"
         ;;
     test)
         echo "Testing..."

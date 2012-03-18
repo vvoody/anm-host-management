@@ -10,7 +10,10 @@ mylog() {
 
 run_script() {
     echo "******************** $1 ********************"
-    perl $1 || mylog "ERROR: $1 failed."
+    perl $1
+    if [ $? -ne 0 ]; then
+        mylog "ERROR: $1 failed."
+    fi
     echo "****************** $1 END ******************"
 }
 

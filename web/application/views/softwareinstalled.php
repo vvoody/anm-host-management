@@ -10,6 +10,9 @@ echo "</div>";
 ?>
 
 Type: unknown(1), operatingSystem(2), deviceDriver(3), application(4)
+<br />
+<b>Note:</b> You may not get this type of information in some system like Slackware and Ubuntu,
+<a href="http://community.zenoss.org/message/51022">reasons</a>.
 
 <table border="0" width="100%" class="norm" cellpadding="0" cellspacing="0">
 <tr>

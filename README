@@ -25,3 +25,10 @@ Please use 'root' with password 'toor' to login.
 Then visit http://194.47.155.140/~xiwa11/web/
 
 Test monitorable server ip: 69.163.40.138, community: ppppublic
+
+=============
+hrSWInstalled
+=============
+In some system like Slackware and Ubuntu, list of installed software is
+not fetchable. For reasons, check: http://community.zenoss.org/message/51022
+
