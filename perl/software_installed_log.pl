@@ -8,7 +8,7 @@ my ($hosts_ref, $err_hosts) = get_hosts($dbh);
 die $err_hosts if $err_hosts;
 
 
-use Data::Dumper;
+#use Data::Dumper;
 foreach $host (@$hosts_ref) {
     my ($host_id, $ip, $community) = @$host;
     $host_id = int($host_id);

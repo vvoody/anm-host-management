@@ -6,7 +6,7 @@ require "common.pl";
 require "oids.pl";
 use lib "lib/";
 use Set::Scalar;
-use Data::Dumper;
+#use Data::Dumper;
 
 
 sub check_storage {

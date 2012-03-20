@@ -118,6 +118,38 @@ sub insert_hash {
 }
 
 
+sub create_rrd_file {
+    my ($rrdfile, $dsname) = @_;
+    system('mkdir -p $(' . "dirname $rrdfile)");
+    my $rc = system("/usr/bin/rrdtool",
+                    "create",
+                    $rrdfile,
+                    "-s 300",
+                    "DS:$dsname:GAUGE:600:U:U",
+                    "RRA:AVERAGE:0.5:1:288",     # 1 day - step: 5 mins, rows: 288
+                    "RRA:AVERAGE:0.5:6:336",     # 1 week - step: 30 mins, rows: 336
+                    "RRA:AVERAGE:0.5:24:372",    # 1 month - step: 2 hours, rows: 372
+                    "RRA:AVERAGE:0.5:144:730",   # 1 year - step: 12 hours, rows: 730
+        );
+    &MYLOG($0, "create_rrd_file", $rrdfile, "created!");
+}
+
+
+sub update_rrd_file {
+    my ($fn, $dsname, $value) = @_;
+    my $rrdfile = $RRD_DIR . $fn;
+    if (! -e $rrdfile) {
+        create_rrd_file($rrdfile, $dsname);
+    }
+    $value = int(rand(100)) + 1 || "U";    # unknown data
+    my $rc = system("/usr/bin/rrdtool",
+                    "update",
+                    $rrdfile,
+                    "-t" . $dsname,
+                    "N:$value");
+}
+
+
 # similar to python's if __name__ == "__main__"
 unless (caller) {
     print "Testing database connection... ";

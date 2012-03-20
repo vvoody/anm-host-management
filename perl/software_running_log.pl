@@ -30,7 +30,7 @@ sub get_swrun {
 }
 
 
-use Data::Dumper;
+#use Data::Dumper;
 foreach $host (@$hosts_ref) {
     my ($host_id, $ip, $community) = @$host;
     $host_id = int($host_id);
@@ -77,8 +77,15 @@ foreach $host (@$hosts_ref) {
                               "host_id" => $host_id,
                               "type" => $type,
                               "status" => $status};
-            my $st = insert_hash($dbh, "software_running_log", $field_values);
-            &MYLOG($0, "insert_hash", "swrun_log|$fields_values", "insert failed") if !defined $st;
+            # my $st = insert_hash($dbh, "software_running_log", $field_values);
+            # &MYLOG($0, "insert_hash", "swrun_log|$fields_values", "insert failed") if !defined $st;
+
+            update_rrd_file("softwarerunning/cpuUsed/" . $swrun->{$name} . ".rrd",
+                            "cpuUsed", $cpu_used || undef,
+                );
+            update_rrd_file("softwarerunning/memAllocated/" . $swrun->{$name} . ".rrd",
+                            "memAllocated", $mem_allocated || undef,
+                );
         }
     }
 

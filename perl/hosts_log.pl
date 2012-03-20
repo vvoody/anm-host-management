@@ -45,7 +45,10 @@ foreach $host (@$hosts_ref) {
         "status" => 1,
     };
 
-    insert_hash($dbh, $TNAME, $field_values);
+#    insert_hash($dbh, $TNAME, $field_values);
+    update_rrd_file("host/numLoadedProcesses/" . $host_id . ".rrd",
+                    "numLoadedProcesses", $res->{$hrSystemProcesses} || undef,
+        );
 
     $snmp_sess->close();
     print "\n";

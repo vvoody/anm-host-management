@@ -24,7 +24,7 @@ sub get_devices {
 }
 
 
-use Data::Dumper;
+#use Data::Dumper;
 foreach $host (@$hosts_ref) {
     my ($host_id, $ip, $community) = @$host;
     $host_id = int($host_id);
@@ -55,8 +55,12 @@ foreach $host (@$hosts_ref) {
             "device_id" => $id,
             "num_errors" => $res->{$hrDeviceErrors} || undef,
         };
-        my $st = insert_hash($dbh, "devices_log", $field_values);
-        &MYLOG($0, "insert_hash", "devices_log|$fields", "insert failed") if !defined $st;
+        # my $st = insert_hash($dbh, "devices_log", $field_values);
+        # &MYLOG($0, "insert_hash", "devices_log|$fields", "insert failed") if !defined $st;
+
+        update_rrd_file("device/numErrors/" . $id . ".rrd",
+                        "numErrors", $res->{$hrDeviceErrors} || undef,
+            );
     }
 
     $snmp_sess->close();

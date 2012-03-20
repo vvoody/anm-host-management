@@ -25,7 +25,7 @@ sub get_storage {
 }
 
 
-use Data::Dumper;
+#use Data::Dumper;
 foreach $host (@$hosts_ref) {
     my ($host_id, $ip, $community) = @$host;
     $host_id = int($host_id);
@@ -53,8 +53,15 @@ foreach $host (@$hosts_ref) {
             "used_capacity" => $res->{$oids[0]} || undef,
             "allocation_failures" => $res->{$oids[1]} || undef,
         };
-        my $st = insert_hash($dbh, "storage_log", $field_values);
-        &MYLOG($0, "insert_hash", "storage_log|$fields", "insert failed") if !defined $st;
+        # my $st = insert_hash($dbh, "storage_log", $field_values);
+        # &MYLOG($0, "insert_hash", "storage_log|$fields", "insert failed") if !defined $st;
+
+        update_rrd_file("storage/usedCapacity/" . $id . ".rrd",
+                        "usedCapacity", $res->{$oids[0]} || undef,
+            );
+        update_rrd_file("storage/allocationFailures/" . $id . ".rrd",
+                        "allocationFailures", $res->{$oids[1]} || undef,
+            );
     }
 
     $snmp_sess->close();

@@ -7,4 +7,6 @@ $HOST     = "localhost" or assert "HOST";
 $DBUSER   = "YOUR DATABASE USER NAME" or assert "DBUSER";
 $DBPASSWD = "YOUR DATABASE PASSWORD" or assert "DBPASSWD";
 
-$LOGFILE  = "/tmp/anm-host-management.log" or assert "LOGFILE";
+$TMP_DIR  = "/tmp/anm-host-management/" or assert "TMP_DIR";
+$RRD_DIR  = $TMP_DIR . "rrd/" or assert "RRD_DIR";
+$LOGFILE  = $TMP_DIR . "/anm-host-management.log" or assert "LOGFILE";

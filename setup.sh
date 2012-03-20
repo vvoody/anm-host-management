@@ -16,6 +16,10 @@ WEB_DBCONF="web/application/config/database.php"
 WEB_CONF="web/application/config/config.php"
 PERL_CONF="perl/setting.pl"
 
+# keep same with perl/setting.example.pl
+PERL_TMP_DIR="/tmp/anm-host-management";
+PERL_RRD_DIR="${TMP_DIR}/rrd";
+
 deploy_database() {
     cat $SQLFILE | mysql -u$DBUSER -p$DBPASSWD $DBNAME
 }
@@ -82,6 +86,7 @@ setup_perl() {
         -e "s/\$DBUSER[ ]*= \"\" or assert \"DBUSER\";/\$DBUSER = \"$DBUSER\" or assert \"DBUSER\";/" \
         -e "s/\$DBPASSWD[ ]*= \"\" or assert \"DBPASSWD\";/\$DBPASSWD = \"$DBPASSWD\" or assert \"DBPASSWD\";/" \
         -i $DEPLOY_PATH/$PERL_CONF
+    mkdir -p $PERL_RRD_DIR
 }
 
 set -e

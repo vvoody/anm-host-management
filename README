@@ -32,3 +32,9 @@ hrSWInstalled
 In some system like Slackware and Ubuntu, list of installed software is
 not fetchable. For reasons, check: http://community.zenoss.org/message/51022
 
+==============
+Multiple Hosts
+==============
+https://github.com/jhthorsen/snmp-effective
+https://github.com/arcanez/snmp-parallel
+http://search.cpan.org/~tpg/SNMP-Multi-2.1/Multi.pm
