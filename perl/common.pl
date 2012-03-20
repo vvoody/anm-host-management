@@ -150,7 +150,7 @@ sub update_rrd_file {
     if (! -e $rrdfile) {
         create_rrd_file($rrdfile, $dsname);
     }
-    $value = int(rand(100)) + 1 || "U";    # unknown data
+    $value = $value || "U";    # unknown data
     my $rc = system("/usr/bin/rrdtool",
                     "update",
                     $rrdfile,
