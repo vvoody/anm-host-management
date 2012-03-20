@@ -140,7 +140,7 @@ sub create_rrd_file {
                     "RRA:MAX:0.5:144:730",
                     "RRA:LAST:0.5:1:288"
         );
-    &MYLOG($0, "create_rrd_file", $rrdfile, "created!");
+    &MYLOG($0, "create_rrd_file", $rrdfile, "created($dsname)");
 }
 
 
@@ -156,6 +156,7 @@ sub update_rrd_file {
                     $rrdfile,
                     "-t" . $dsname,
                     "N:$value");
+    print "$dsname: $value\n";
 }
 
 

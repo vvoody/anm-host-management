@@ -12,13 +12,12 @@ WEB_SCRIPTS="web/"
 ADMIN="root"
 ADMINPW="toor"
 
-WEB_DBCONF="web/application/config/database.php"
-WEB_CONF="web/application/config/config.php"
-PERL_CONF="perl/setting.pl"
+WEB_CONF_DIR="web/application/config/"
+PERL_CONF_DIR="perl/"
 
 # keep same with perl/setting.example.pl
 PERL_TMP_DIR="/tmp/anm-host-management";
-PERL_RRD_DIR="${TMP_DIR}/rrd";
+PERL_RRD_DIR="${PERL_TMP_DIR}/rrd";
 
 deploy_database() {
     cat $SQLFILE | mysql -u$DBUSER -p$DBPASSWD $DBNAME
@@ -26,6 +25,12 @@ deploy_database() {
 
 clean_database() {
     mysqldump -u$DBUSER -p$DBPASSWD --add-drop-table --no-data $DBNAME | grep ^DROP | mysql -u$DBUSER -p$DBPASSWD $DBNAME
+}
+
+clean_files() {
+    rm -rf $DEPLOY_PATH/$PERL_SCRIPTS
+    rm -rf $DEPLOY_PATH/$WEB_SCRIPTS
+    rm -rf $PERL_TMP_DIR
 }
 
 deploy_files() {
@@ -71,21 +76,24 @@ db_create_root() {
 }
 
 setup_web() {
-    sed -e "s/\$db\['default'\]\['username'\] = '';/\$db\['default'\]\['username'\] = '$DBUSER';/" \
-        -e "s/\$db\['default'\]\['password'\] = '';/\$db\['default'\]\['password'\] = '$DBPASSWD';/" \
-        -e "s/\$db\['default'\]\['database'\] = '';/\$db\['default'\]\['database'\] = '$DBNAME';/" \
-        -i $DEPLOY_PATH/$WEB_DBCONF
+    cp $DEPLOY_PATH/$WEB_CONF_DIR/{database.example.php,database.php}
+    sed -e "s/\$db\['default'\]\['username'\] = 'YOUR DATABASE USER NAME';/\$db\['default'\]\['username'\] = '$DBUSER';/" \
+        -e "s/\$db\['default'\]\['password'\] = 'YOUR DATABASE PASSWORD';/\$db\['default'\]\['password'\] = '$DBPASSWD';/" \
+        -e "s/\$db\['default'\]\['database'\] = 'YOUR DATABASE NAME';/\$db\['default'\]\['database'\] = '$DBNAME';/" \
+        -i $DEPLOY_PATH/$WEB_CONF_DIR/database.php
 
+    cp $DEPLOY_PATH/$WEB_CONF_DIR/{config.example.php,config.php}
     encryption_key=$(date +%s | md5sum | cut -d ' ' -f1)
     sed -e "s/\$config\['encryption_key'\] = '';/\$config\['encryption_key'\] = '$encryption_key';/" \
-        -i $DEPLOY_PATH/$WEB_CONF
+        -i $DEPLOY_PATH/$WEB_CONF_DIR/config.php
 }
 
 setup_perl() {
-    sed -e "s/\$DATABASE[ ]* = \"\" or assert \"DATABASE\";/\$DATABASE = \"$DBNAME\" or assert \"DATABASE\";/" \
-        -e "s/\$DBUSER[ ]*= \"\" or assert \"DBUSER\";/\$DBUSER = \"$DBUSER\" or assert \"DBUSER\";/" \
-        -e "s/\$DBPASSWD[ ]*= \"\" or assert \"DBPASSWD\";/\$DBPASSWD = \"$DBPASSWD\" or assert \"DBPASSWD\";/" \
-        -i $DEPLOY_PATH/$PERL_CONF
+    cp $DEPLOY_PATH/$PERL_CONF_DIR/{setting.example.pl,setting.pl}
+    sed -e "s/\$DATABASE[ ]* = \"YOUR DATABASE NAME\" or assert \"DATABASE\";/\$DATABASE = \"$DBNAME\" or assert \"DATABASE\";/" \
+        -e "s/\$DBUSER[ ]*= \"YOUR DATABASE USER NAME\" or assert \"DBUSER\";/\$DBUSER = \"$DBUSER\" or assert \"DBUSER\";/" \
+        -e "s/\$DBPASSWD[ ]*= \"YOUR DATABASE PASSWORD\" or assert \"DBPASSWD\";/\$DBPASSWD = \"$DBPASSWD\" or assert \"DBPASSWD\";/" \
+        -i $DEPLOY_PATH/$PERL_CONF_DIR/setting.pl
     mkdir -p $PERL_RRD_DIR
 }
 
@@ -93,9 +101,10 @@ set -e
 
 case "$1" in
     clean)
-        echo "Doing cleanup jobs: drop tables,"
-        import_last_saved || get_db_userpasswd
+        echo "Doing cleanup jobs: drop tables, files..."
+        import_last_saved || get_all_info
         clean_database
+        clean_files
         ;;
     install)
         echo "Starting install..."
