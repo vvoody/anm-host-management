@@ -130,6 +130,15 @@ sub create_rrd_file {
                     "RRA:AVERAGE:0.5:6:336",     # 1 week - step: 30 mins, rows: 336
                     "RRA:AVERAGE:0.5:24:372",    # 1 month - step: 2 hours, rows: 372
                     "RRA:AVERAGE:0.5:144:730",   # 1 year - step: 12 hours, rows: 730
+                    "RRA:MIN:0.5:1:288",
+                    "RRA:MIN:0.5:6:336",
+                    "RRA:MIN:0.5:24:372",
+                    "RRA:MIN:0.5:144:730",
+                    "RRA:MAX:0.5:1:288",
+                    "RRA:MAX:0.5:6:336",
+                    "RRA:MAX:0.5:24:372",
+                    "RRA:MAX:0.5:144:730",
+                    "RRA:LAST:0.5:1:288"
         );
     &MYLOG($0, "create_rrd_file", $rrdfile, "created!");
 }
