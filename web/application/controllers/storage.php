@@ -30,10 +30,11 @@ class Storage extends CI_Controller {
         }
         $data['title'] = "$period graph of storage '$cmpt_descr' of $cmpt_host";
         $data['component'] = 'storage';
-        $data['graphs'] = array('used_capacity', 'allocation_failures');
+        // rrd can't have dsname longer than 19 chars
+        $data['graphs'] = array('usedCapacity', 'allocationFailures');
         $data['period'] = $period;
         $data['id_or_name'] = $storage_id;
-        $this->load->view('graph', $data);
+        $this->load->view('graph_rrd', $data);
     }
 
 }
