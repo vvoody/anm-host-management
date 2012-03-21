@@ -25,7 +25,7 @@ Status: running(1), runnable(2), notRunnable(3), invalid(4)
 
 foreach ($softwarerunning as $row) {
     $id = $row->id;
-    $swrun_id = $row->software_running_id;
+//    $swrun_id = $row->software_running_id;
     $name = $row->name;
     $type = $row->type;
     $status = $row->status;
@@ -35,7 +35,7 @@ foreach ($softwarerunning as $row) {
     echo "<td>$type</td>";
     echo "<td>$status</td>";
     echo "<td>$hid</td>";
-    echo "<td>" . anchor("softwarerunning/graph/daily/$swrun_id", 'Daily') . "&bull;" . anchor("softwarerunning/graph/weekly/$swrun_id", 'Weekly') . "&bull;" . anchor("softwarerunning/graph/monthly/$swrun_id", 'Monthly') . "</td>";
+    echo "<td>" . anchor("softwarerunning/graph/daily/$id", 'Daily') . "&bull;" . anchor("softwarerunning/graph/weekly/$id", 'Weekly') . "&bull;" . anchor("softwarerunning/graph/monthly/$id", 'Monthly') . "</td>";
     echo "</tr>";
 }
 

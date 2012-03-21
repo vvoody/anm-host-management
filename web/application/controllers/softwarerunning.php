@@ -32,10 +32,10 @@ class Softwarerunning extends CI_Controller {
         }
         $data['title'] = "$period graph of running software '$cmpt_name' of $cmpt_host";
         $data['component'] = 'softwarerunning';
-        $data['graphs'] = array('cpu_used', 'mem_allocated');
+        $data['graphs'] = array('cpuUsed', 'memAllocated');
         $data['period'] = $period;
         $data['id_or_name'] = $swrun_id;
-        $this->load->view('graph', $data);
+        $this->load->view('graph_rrd', $data);
     }
 
 }

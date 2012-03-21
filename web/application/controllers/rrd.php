@@ -18,7 +18,49 @@ class Rrd extends CI_Controller {
     public function graph($cmpt, $dsname, $period, $cmpt_id) {
         $RRD_DIR = "/tmp/anm-host-management/rrd";
         $rrdfile = "$RRD_DIR/$cmpt/$dsname/$cmpt_id.rrd";
-        $cmd = "rrdtool graph - --start 1332308100 DEF:$dsname=$rrdfile:$dsname:AVERAGE LINE1:$dsname#FF0000:\"$dsname\"";
+
+        $line = $dsname;  // if no CDEF
+        $cdef = "";
+        $opts = "";
+
+        // some are just numbers, no need CDEF
+        switch($cmpt) {
+        case 'host':
+            break;
+        case 'device':
+            break;
+        case 'storage':
+            if ($dsname == "usedCapacity") {
+                $line = "used_capacity";
+                $cdef = "'CDEF:$line=$dsname,4096,*'";    // 4096 bytpes per unit
+            }
+            break;
+        case 'softwarerunning':
+            if ($dsname == "cpuUsed") {
+                $line = "cpu_used";
+                $cdef = "'CDEF:$line=$dsname,10,*'";    // 10 millisencds equal 1 centi-seconds
+                $opts = "-v Millisencds";
+            }
+            break;
+        default:
+            return;
+        }
+
+        switch($period) {
+        case 'daily':
+            $start = "'-1 day'";
+            break;
+        case 'weekly':
+            $start = "'-1 week'";
+            break;
+        case 'monthly':
+            $start = "'-1 month'";
+            break;
+        default:
+            return;
+        }
+        $cmd = "rrdtool graph - --start $start $opts DEF:$dsname=$rrdfile:$dsname:AVERAGE $cdef LINE1:$line#FF0000:\"$dsname\"";
+//        echo $cmd;
         header("Content-Type: image/jpeg");
         passthru($cmd);
     }

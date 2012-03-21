@@ -32,10 +32,10 @@ class Device extends CI_Controller {
         }
         $data['title'] = "$period graph of device '$cmpt_descr' of $cmpt_host";
         $data['component'] = 'device';
-        $data['graphs'] = array('num_errors');
+        $data['graphs'] = array('numErrors');
         $data['period'] = $period;
         $data['id_or_name'] = $device_id;
-        $this->load->view('graph', $data);
+        $this->load->view('graph_rrd', $data);
     }
 
 }
