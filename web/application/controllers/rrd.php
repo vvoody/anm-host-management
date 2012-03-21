@@ -14,14 +14,15 @@ class Rrd extends CI_Controller {
         $this->load->view('welcome_message');
     }
 
-    // rrd/graph/device/numErrors/daily/101
-    public function graph($cmpt, $dsname, $period, $cmpt_id) {
+    // rrd/graph/device/numErrors/daily/101/$label
+    public function graph($cmpt, $dsname, $period, $cmpt_id, $label=FALSE) {
         $RRD_DIR = "/tmp/anm-host-management/rrd";
         $rrdfile = "$RRD_DIR/$cmpt/$dsname/$cmpt_id.rrd";
 
         $line = $dsname;  // if no CDEF
         $cdef = "";
-        $opts = "";
+        $title = $label ? $label: $dsname ;
+        $opts = "-t '$title'";
 
         // some are just numbers, no need CDEF
         switch($cmpt) {
@@ -39,7 +40,7 @@ class Rrd extends CI_Controller {
             if ($dsname == "cpuUsed") {
                 $line = "cpu_used";
                 $cdef = "'CDEF:$line=$dsname,10,*'";    // 10 millisencds equal 1 centi-seconds
-                $opts = "-v Millisencds";
+                $opts = $opts . " -v Millisencds";
             }
             break;
         default:
